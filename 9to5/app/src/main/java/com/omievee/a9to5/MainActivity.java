@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //RecyclerView / LLM / Async Task
         mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test","Test","Test"));
+        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
@@ -92,53 +92,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        if (id == CALENDAR_LOADER) {
-            Date now = new Date();
-            Uri query = ContentUris.withAppendedId(CONTENT_URI, now.getTime());
-            Calendar cal = GregorianCalendar.getInstance();
-            cal.setTime(now);
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            Date tomorrow = cal.getTime();
-            query = ContentUris.withAppendedId(query, tomorrow.getTime());
-            return new CursorLoader(this,
-                    query,
-                    new String[]{_ID, BEGIN, END, TITLE, DISPLAY_COLOR},
-                    null,
-                    null,
-                    BEGIN + " asc");
-        } else return null;
+        switch (id) {
+            case CALENDAR_LOADER:
+            default: return null;
+        }
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
-            CalendarEvents events = new CalendarEvents();
-            for (int i = 0; i < 3; i++) {
-                events.addInstance(
-                        data.getLong(data.getColumnIndex(_ID)),
-                        data.getInt(data.getColumnIndex(DISPLAY_COLOR)),
-                        data.getString(data.getColumnIndex(TITLE)),
-                        data.getLong(data.getColumnIndex(BEGIN)),
-                        data.getLong(data.getColumnIndex(END)
-                ));
-                data.moveToNext();
-                if (data.isAfterLast()) break;
-            }
-            mAdapt.addToList(events);
-        }
+
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
 
     }
-
-    //AsyncTask loading Card info
-    private AsyncTask mTask = new AsyncTask() {
-        @Override
-        protected Object doInBackground(Object[] params) {
-
-            return params;
-        }
-    };
 }
