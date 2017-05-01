@@ -1,6 +1,7 @@
 package com.omievee.a9to5;
 
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
@@ -9,11 +10,20 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.omievee.a9to5.RecyclerView.Cardinfo;
+import com.omievee.a9to5.RecyclerView.RECYAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.omievee.a9to5.Calendar.CalendarEventInstance;
 
@@ -26,6 +36,10 @@ import static android.provider.CalendarContract.Instances.*;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
+
+    RecyclerView mRV;
+    RECYAdapter mAdapt;
+    List<Cardinfo> mCardinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +56,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         .setAction("Action", null).show();
             }
         });
+
+
+        //RecyclerView / LLM / Async Task
+        mCardinfo = new ArrayList<>();
+        mCardinfo.add(new Cardinfo("a","b","c"));
+        mRV = (RecyclerView) findViewById(R.id.RECY);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRV.setLayoutManager(manager);
+
+
+        mAdapt = new RECYAdapter(mCardinfo);
+        mRV.setAdapter(mAdapt);
+//        mTask.execute();
+
+
     }
 
     @Override
@@ -95,4 +124,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader loader) {
 
     }
+
+    //AsyncTask loading Card info
+    private AsyncTask mTask = new AsyncTask() {
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            return params;
+        }
+    };
+
 }
