@@ -1,15 +1,31 @@
 package com.omievee.a9to5;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.omievee.a9to5.Calendar.CalendarEventInstance;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import static android.provider.CalendarContract.Instances.*;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String TAG = "MainActivity";
+    private static final int CALENDAR_LOADER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,5 +64,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        if (id == CALENDAR_LOADER) {
+            return new CursorLoader(this,
+                    CONTENT_URI,
+                    new String[]{_ID, BEGIN, END, DESCRIPTION, CALENDAR_COLOR},
+                    BEGIN + " > ?",
+                    new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())},
+                    BEGIN + " asc");
+        } else return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data!= null && data.moveToFirst()){
+            for (int i = 0; i < 3; i++) {
+                List<CalendarEventInstance> events = new ArrayList();
+                Log.d(TAG, "onLoadFinished: " + data.getLong(data.getColumnIndex(_ID)));
+                Log.d(TAG, "onLoadFinished: " + data.getString(data.getColumnIndex(DESCRIPTION)));
+                data.moveToNext();
+                if(data.isAfterLast()) break;
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
     }
 }
