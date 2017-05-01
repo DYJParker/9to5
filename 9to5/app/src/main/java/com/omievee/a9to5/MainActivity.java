@@ -1,9 +1,10 @@
 package com.omievee.a9to5;
 
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -13,22 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.omievee.a9to5.Calendar.CalendarEvents;
+import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import com.omievee.a9to5.Calendar.CalendarEventInstance;
-
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.provider.CalendarContract.Instances.*;
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     RecyclerView mRV;
     RECYAdapter mAdapt;
-    List<Cardinfo> mCardinfo;
+    List<AbstractBaseInformationObject> mCardinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-
         //RecyclerView / LLM / Async Task
         mCardinfo = new ArrayList<>();
         mCardinfo.add(new Cardinfo("Test","Test","Test"));
@@ -64,12 +61,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
 
-
         mAdapt = new RECYAdapter(mCardinfo);
         mRV.setAdapter(mAdapt);
 //        mTask.execute();
 
-
+        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
     }
 
     @Override
@@ -97,25 +93,38 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         if (id == CALENDAR_LOADER) {
+            Date now = new Date();
+            Uri query = ContentUris.withAppendedId(CONTENT_URI, now.getTime());
+            Calendar cal = GregorianCalendar.getInstance();
+            cal.setTime(now);
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+            Date tomorrow = cal.getTime();
+            query = ContentUris.withAppendedId(query, tomorrow.getTime());
             return new CursorLoader(this,
-                    CONTENT_URI,
-                    new String[]{_ID, BEGIN, END, DESCRIPTION, CALENDAR_COLOR},
-                    BEGIN + " > ?",
-                    new String[]{Long.toString(Calendar.getInstance().getTimeInMillis())},
+                    query,
+                    new String[]{_ID, BEGIN, END, TITLE, DISPLAY_COLOR},
+                    null,
+                    null,
                     BEGIN + " asc");
         } else return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data!= null && data.moveToFirst()){
+        if (data != null && data.moveToFirst()) {
+            CalendarEvents events = new CalendarEvents();
             for (int i = 0; i < 3; i++) {
-                List<CalendarEventInstance> events = new ArrayList();
-                Log.d(TAG, "onLoadFinished: " + data.getLong(data.getColumnIndex(_ID)));
-                Log.d(TAG, "onLoadFinished: " + data.getString(data.getColumnIndex(DESCRIPTION)));
+                events.addInstance(
+                        data.getLong(data.getColumnIndex(_ID)),
+                        data.getInt(data.getColumnIndex(DISPLAY_COLOR)),
+                        data.getString(data.getColumnIndex(TITLE)),
+                        data.getLong(data.getColumnIndex(BEGIN)),
+                        data.getLong(data.getColumnIndex(END)
+                ));
                 data.moveToNext();
-                if(data.isAfterLast()) break;
+                if (data.isAfterLast()) break;
             }
+            mAdapt.addToList(events);
         }
     }
 
@@ -132,5 +141,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return params;
         }
     };
-
 }

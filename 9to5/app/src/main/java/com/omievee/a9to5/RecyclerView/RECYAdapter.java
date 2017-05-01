@@ -42,4 +42,8 @@ public class RECYAdapter extends RecyclerView.Adapter<RECYViewHolder> {
         return mCardList.size();
     }
 
+    public void addToList(AbstractBaseInformationObject obj){
+        mCardList.add(obj);
+        notifyItemInserted(mCardList.size()-1);
+    }
 }
