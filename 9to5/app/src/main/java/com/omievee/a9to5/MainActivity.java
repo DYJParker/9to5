@@ -52,15 +52,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
 
 
         //RecyclerView / LLM / Async Task
         mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("a","b","c"));
+        mCardinfo.add(new Cardinfo("Test","Test","Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
