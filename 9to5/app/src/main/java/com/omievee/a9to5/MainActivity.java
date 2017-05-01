@@ -1,15 +1,28 @@
 package com.omievee.a9to5;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.omievee.a9to5.RecyclerView.Cardinfo;
+import com.omievee.a9to5.RecyclerView.RECYAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    RecyclerView mRV;
+    RECYAdapter mAdapt;
+    List<Cardinfo> mCardinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +39,21 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        //RecyclerView / LLM / Async Task
+        mCardinfo = new ArrayList<>();
+        mCardinfo.add(new Cardinfo("a","b","c"));
+        mRV = (RecyclerView) findViewById(R.id.RECY);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRV.setLayoutManager(manager);
+
+
+        mAdapt = new RECYAdapter(mCardinfo);
+        mRV.setAdapter(mAdapt);
+//        mTask.execute();
+
+
     }
 
     @Override
@@ -49,4 +77,16 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    //AsyncTask loading Card info
+    private AsyncTask mTask = new AsyncTask() {
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            return params;
+        }
+    };
+
+
 }
