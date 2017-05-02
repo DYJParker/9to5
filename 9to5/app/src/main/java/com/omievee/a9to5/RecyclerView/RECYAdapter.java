@@ -1,11 +1,13 @@
 package com.omievee.a9to5.RecyclerView;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
+import com.omievee.a9to5.R;
 
 import java.util.List;
 
@@ -33,9 +35,10 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
     @Override
     public AbstractBaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        CardView item = (CardView) inflater.inflate(R.layout.base_item_cardview,parent,false);
         switch (viewType) {
             case CALENDAR_TYPE:
-                return new CalendarViewHolder(new LinearLayoutCompat(parent.getContext()));
+                return new CalendarViewHolder(item);
             default:
                 return null;
         }
