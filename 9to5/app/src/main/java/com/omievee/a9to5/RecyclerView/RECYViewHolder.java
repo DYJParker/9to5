@@ -11,7 +11,7 @@ import com.omievee.a9to5.R;
  * Created by omievee on 5/1/17.
  */
 
-public class RECYViewHolder extends RecyclerView.ViewHolder {
+public class RECYViewHolder extends AbstractBaseHolder {
 
     public View mRootview;
     public TextView mText1, mText2, mText3;
@@ -28,5 +28,8 @@ public class RECYViewHolder extends RecyclerView.ViewHolder {
         mCardView = (CardView) itemView.findViewById(R.id.CardView);
     }
 
+    @Override
+    public void bindDataToViews(AbstractBaseInformationObject data) {
 
+    }
 }
