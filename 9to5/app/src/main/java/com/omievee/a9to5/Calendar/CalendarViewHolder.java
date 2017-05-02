@@ -1,5 +1,6 @@
 package com.omievee.a9to5.Calendar;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,7 @@ public class CalendarViewHolder extends AbstractBaseHolder {
                 LinearLayoutCompat.LayoutParams.MATCH_PARENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
         int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.typ_margin);
-        int bottomPadding = padding + itemView.getResources().getDimensionPixelOffset(R.dimen.default_cardview_bottom_margin);
+        int bottomPadding = padding /*+ itemView.getResources().getDimensionPixelOffset(R.dimen.default_cardview_bottom_margin)*/;
         content.setPadding(padding, padding, padding, bottomPadding);
         content.setOrientation(LinearLayoutCompat.VERTICAL);
         for (int i = 0; i < CalendarCallbacks.CAL_ENTRIES; i++) {
@@ -52,8 +53,8 @@ public class CalendarViewHolder extends AbstractBaseHolder {
 
     @Override
     public void bindDataToViews(AbstractBaseInformationObject data) {
-        CalendarEvents calData = (CalendarEvents) data;
-        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+        final CalendarEvents calData = (CalendarEvents) data;
+        final SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
         for (int i = 0; i < CalendarCallbacks.CAL_ENTRIES; i++) {
             if(i < calData.getList().size()) {
                 mTitles.get(i).setText(calData.getList().get(i).mDescription);
@@ -62,10 +63,26 @@ public class CalendarViewHolder extends AbstractBaseHolder {
                         sdf.format(calData.getList().get(i).mBegin),
                         sdf.format(calData.getList().get(i).mEnd)
                 ));
-                mIcon.get(i).setColorFilter(calData.getList().get(i).mColor);
+                mIcon.get(i).getBackground().setTint(calData.getList().get(i).mColor);
+                final int finalI = i;
+                mIcon.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent inte = new Intent();
+                        inte.setAction(Intent.ACTION_SEND);
+                        inte.putExtra(Intent.EXTRA_TEXT, String.format(
+                                "I have %s today, starting at %s",
+                                calData.getList().get(finalI).mDescription,
+                                sdf.format(calData.getList().get(finalI).mBegin)
+                        ));
+                        inte.setType("text/plain");
+                        v.getContext().startActivity(Intent.createChooser(inte,"Where do you want to send your event?"));
+                    }
+                });
             } else {
                 ((View)mTitles.get(i).getParent()).setVisibility(View.GONE);
             }
+
         }
     }
 

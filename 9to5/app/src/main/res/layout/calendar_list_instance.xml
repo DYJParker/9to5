@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:padding="8dp">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginRight="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/calendar_icon"
-        tools:tint="#f000"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/calendar_icon"
+        tools:backgroundTint="#f000"
+        android:src="@drawable/ic_share_black_24dp"
+        android:tint="#ffff"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
         android:id="@+id/title"
@@ -24,7 +33,13 @@
         android:maxLines="1"
         android:scrollHorizontally="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        tools:text="Test Titlea;sldkjf;alskdjf;alskdjf;alksjdf;laksjdf;laksjdf;laksjdf;laksjdf"/>
+        tools:text="Test Titlea;sldkjf;alskdjf;alskdjf;alksjdf;laksjdf;laksjdf;laksjdf;laksjdf"
+        app:layout_constraintLeft_toRightOf="@+id/icon"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"/>
 
     <TextView
         android:id="@+id/timing"
@@ -34,6 +49,12 @@
         android:ellipsize="marquee"
         android:maxLines="1"
         android:scrollHorizontally="true"
-        tools:text="Test Timing"/>
+        tools:text="Test Timing"
+        app:layout_constraintLeft_toRightOf="@+id/icon"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

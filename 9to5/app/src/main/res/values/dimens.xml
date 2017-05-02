@@ -1,5 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="typ_margin">8dp</dimen>
+    <dimen name="typ_margin">4dp</dimen>
     <dimen name="default_cardview_bottom_margin">12dp</dimen>
 </resources>
