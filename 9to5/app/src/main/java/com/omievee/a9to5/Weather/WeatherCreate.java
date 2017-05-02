@@ -20,6 +20,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.omievee.a9to5.MainActivity;
 import com.omievee.a9to5.R;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
@@ -39,7 +40,7 @@ public class WeatherCreate{
     public static final String UNITS = "imperial";
 
 
-    protected static void getCityWeather(String cityQuery, Context context) {
+    public static void getCityWeather(String cityQuery, final Context context) {
 
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -50,9 +51,9 @@ public class WeatherCreate{
                     .build();
 
             OpenWeatherService service = retrofit.create(OpenWeatherService.class);
-            Call<WeatherContainer> weatherCall = service.getWeather(ID, cityQuery, UNITS);
+            final Call<WeatherContainer> weatherCall = service.getWeather(ID, cityQuery, UNITS);
 
-            //  Log.d(TAG, "getCityWeather: " + weatherCall.request().toString());
+            // Log.d(TAG, "getCityWeather: " + weatherCall.request().toString());
 
             weatherCall.enqueue(new Callback<WeatherContainer>() {
                 @Override
@@ -66,8 +67,23 @@ public class WeatherCreate{
                         //Toast.makeText(MainActivity.context, "City Unknown, Please try again", Toast.LENGTH_SHORT).show();
                     } else {
                         //TODO create object and add it to recyclerview
+
+                        WeatherInfoObject mTemp = new WeatherInfoObject(
+                                weather.getName(),
+                                weather.getWeather().get(0).getDescription(),
+                                weather.getMain().getTemp());
+
+                        ((MainActivity)context).getmAdapt().addToList(mTemp);
+
+                        Log.d(TAG, "city: " + weather.getName());
+                        Log.d(TAG, "description: " + weather.getWeather().get(0).getDescription());
+                        Log.d(TAG, "temp: " +  weather.getMain().getTemp());
+
+
                     }
+
                 }
+
 
                 @Override
                 public void onFailure(Call<WeatherContainer> call, Throwable t) {

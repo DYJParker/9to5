@@ -24,6 +24,7 @@ import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.OpenWeatherService;
+import com.omievee.a9to5.Weather.Weather;
 import com.omievee.a9to5.Weather.WeatherContainer;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     //private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
 
+
+
     RecyclerView mRV;
     RECYAdapter mAdapt;
     List<AbstractBaseInformationObject> mCardinfo;
@@ -43,14 +46,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String BASE_URL = "http://api.openweathermap.org/";
     public static final String ID = "bfb4d3e098fa94eb0ea53de3c479236e";
     public static final String UNITS = "imperial";
-    
+
+    public RECYAdapter getmAdapt() {
+        return mAdapt;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        System.out.print("LOADER is being called");
 
 
+        return null;
 
-    TextView mCityText;
-    TextView mTemperatureText;
-    TextView mDescriptionText;
+        //Check Dave's Shit
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        //Check Dave's Shit
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        //Check Dave's Shit
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +80,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        //mEditText = (EditText) findViewById(R.id.query_text);
-
-        mCityText = (TextView) findViewById(R.id.city_textview);
-        mTemperatureText = (TextView) findViewById(R.id.temperature_textview);
-        mDescriptionText = (TextView) findViewById(R.id.description_textview);
-
-        //mButton.setOnClickListener(new View.OnClickListener() {
 
         //RecyclerView / LLM / Async Task
-
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
-
 
 
         mRV = (RecyclerView) findViewById(R.id.RECY);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
+        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
+        mRV.setAdapter(mAdapt);
+
 
         String cityQuery = "New York";
         //mEditText.getText().toString();
@@ -89,14 +103,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        else {
 //
 //        }
+
+
         WeatherCreate.getCityWeather(cityQuery, this);
+
     }
 }
 
 
 
 
-    /*
+
+//Extra Bullshit////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
 
-        mAdapt = new RECYAdapter(mCardinfo);
+        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 //        mTask.execute();
 
@@ -157,5 +180,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader loader) {
 
-    }
-}
+  */
