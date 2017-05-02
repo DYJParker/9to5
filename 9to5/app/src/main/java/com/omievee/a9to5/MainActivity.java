@@ -1,14 +1,9 @@
 package com.omievee.a9to5;
 
-import android.content.ContentUris;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,19 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.omievee.a9to5.Calendar.CalendarCallbacks;
-import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
-import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-
-import static android.provider.CalendarContract.Instances.*;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivity";
@@ -92,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader onCreateLoader(int id, Bundle args) {
         switch (id) {
             case CALENDAR_LOADER:
-                return CalendarCallbacks.onCreateCalendarLoader(this);
+                //return CalendarCallbacks.onCreateCalendarLoader(this);
             default: return null;
         }
     }
@@ -100,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
+            //mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
         }
     }
 

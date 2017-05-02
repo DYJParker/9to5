@@ -3,12 +3,9 @@ package com.omievee.a9to5.RecyclerView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
-import com.omievee.a9to5.R;
 
 import java.util.List;
 
@@ -27,9 +24,10 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
+        /*if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
             //elseif
-        else throw new RuntimeException("Invalid data!");
+        else*/
+        throw new RuntimeException("Invalid data!");
     }
 
     @Override
@@ -53,9 +51,9 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
             RECYholder.mText1.setText(cards.getTest1());
             RECYholder.mText2.setText(cards.getTest2());
             RECYholder.mText3.setText(cards.getTest3());
-        } else if (mCardList.get(position) instanceof CalendarEvents){
+        } /*else if (mCardList.get(position) instanceof CalendarEvents){
             holder.bindDataToViews(mCardList.get(position));
-        }
+        }*/
     }
 
     @Override
@@ -64,6 +62,13 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
     }
 
     public void addToList(AbstractBaseInformationObject obj) {
+        //for(AbstractBaseInformationObject listObj : mCardList){
+        //    if (obj.getClass().getCanonicalName() == listObj.getClass().getCanonicalName()){
+        //        listObj = obj;
+        //        notifyItemChanged(mCardList.indexOf(listObj));
+        //        return;
+        //    }
+        //}
         mCardList.add(obj);
         notifyItemInserted(mCardList.size() - 1);
     }
