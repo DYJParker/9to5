@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Dave - Work on 5/1/2017.
  */
 
-public class CalendarEvents extends AbstractBaseInformationObject{
+public class CalendarEvents extends AbstractBaseInformationObject {
     private List<CalendarEventInstance> mList;
 
     public CalendarEvents() {

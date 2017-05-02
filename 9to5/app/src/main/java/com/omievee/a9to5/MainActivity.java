@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.omievee.a9to5.Calendar.CalendarCallbacks;
 import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
@@ -55,15 +56,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         //RecyclerView / LLM / Async Task
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
 
-        mAdapt = new RECYAdapter(mCardinfo);
+        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
-//        mTask.execute();
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
     }
@@ -94,13 +92,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader onCreateLoader(int id, Bundle args) {
         switch (id) {
             case CALENDAR_LOADER:
+                return CalendarCallbacks.onCreateCalendarLoader(this);
             default: return null;
         }
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        if (data != null && data.moveToFirst()) {
+            mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
+        }
     }
 
     @Override
