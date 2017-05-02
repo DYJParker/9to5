@@ -16,17 +16,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import com.omievee.a9to5.MTA_API.MTA_Interface;
+import com.omievee.a9to5.MTA_API.MTA_POJO;
+import com.omievee.a9to5.MTA_API.MTA_object;
 import com.omievee.a9to5.MTA_API.MTA_Interface;
 import com.omievee.a9to5.MTA_API.MTA_POJO;
 import com.omievee.a9to5.MTA_API.MTA_object;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
-import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConver
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,14 +64,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         //RecyclerView / LLM / Async Task
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
 
-
-        mAdapt = new RECYAdapter(mCardinfo);
+        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 //        mTask.execute();
 
@@ -105,7 +107,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        if (data != null && data.moveToFirst()) {
+            //mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
+        }
     }
 
     @Override
@@ -155,4 +159,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     }
+
+
 }
