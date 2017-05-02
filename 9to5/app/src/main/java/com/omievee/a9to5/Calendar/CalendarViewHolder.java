@@ -1,5 +1,6 @@
 package com.omievee.a9to5.Calendar;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,21 +31,23 @@ public class CalendarViewHolder extends AbstractBaseHolder {
         mTitles = new ArrayList<>();
         mStartEnds = new ArrayList<>();
         mIcon = new ArrayList<>();
-        //TODO take in CardView, add LinearLayout inside it
-        itemView.setLayoutParams(new LinearLayout.LayoutParams(
+        LinearLayoutCompat content = new LinearLayoutCompat(itemView.getContext());
+        content.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayoutCompat.LayoutParams.MATCH_PARENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
         int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.typ_margin);
-        itemView.setPadding(padding, padding, padding, padding);
-        ((LinearLayoutCompat) itemView).setOrientation(LinearLayoutCompat.VERTICAL);
+        int bottomPadding = padding + itemView.getResources().getDimensionPixelOffset(R.dimen.default_cardview_bottom_margin);
+        content.setPadding(padding, padding, padding, bottomPadding);
+        content.setOrientation(LinearLayoutCompat.VERTICAL);
         for (int i = 0; i < CalendarCallbacks.CAL_ENTRIES; i++) {
             View subchild = LayoutInflater.from(itemView.getContext())
                     .inflate(R.layout.calendar_list_instance, null);
-            ((LinearLayoutCompat) itemView).addView(subchild);
+            content.addView(subchild);
             mTitles.add((TextView) subchild.findViewById(R.id.title));
             mStartEnds.add((TextView) subchild.findViewById(R.id.timing));
             mIcon.add((ImageView) subchild.findViewById(R.id.icon));
         }
+        ((CardView) itemView).addView(content,0);
     }
 
     @Override
@@ -54,9 +57,11 @@ public class CalendarViewHolder extends AbstractBaseHolder {
         for (int i = 0; i < CalendarCallbacks.CAL_ENTRIES; i++) {
             if(i < calData.getList().size()) {
                 mTitles.get(i).setText(calData.getList().get(i).mDescription);
-                mStartEnds.get(i).setText(String.format("%s - %s",
+                mStartEnds.get(i).setText(String.format(
+                        "%s - %s",
                         sdf.format(calData.getList().get(i).mBegin),
-                        sdf.format(calData.getList().get(i).mEnd)));
+                        sdf.format(calData.getList().get(i).mEnd)
+                ));
                 mIcon.get(i).setColorFilter(calData.getList().get(i).mColor);
             } else {
                 ((View)mTitles.get(i).getParent()).setVisibility(View.GONE);

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.omievee.a9to5.Calendar.CalendarCallbacks;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader onCreateLoader(int id, Bundle args) {
         switch (id) {
             case CALENDAR_LOADER:
-                //return CalendarCallbacks.onCreateCalendarLoader(this);
+                return CalendarCallbacks.onCreateCalendarLoader(this);
             default: return null;
         }
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            //mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
+            mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
         }
     }
 
