@@ -33,9 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
-import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ import java.util.List;
 import static android.provider.CalendarContract.Instances.*;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "MainActivity";
+//    private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
 
     RecyclerView mRV;
@@ -71,68 +69,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        //mEditText = (EditText) findViewById(R.id.query_text);
-
-        mCityText = (TextView) findViewById(R.id.city_textview);
-        mTemperatureText = (TextView) findViewById(R.id.temperature_textview);
-        mDescriptionText = (TextView) findViewById(R.id.description_textview);
-
-        //mButton.setOnClickListener(new View.OnClickListener() {
-
-        String cityQuery = "New York";
-                        //mEditText.getText().toString();
-        if (cityQuery.trim().isEmpty()) {
-            //mEditText.setError("Pleas re-enter");
-                } else {
-                    getCityWeather(cityQuery);
-
-                }
-            }
-
-    protected void getCityWeather(String cityQuery) {
-
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            OpenWeatherService service = retrofit.create(OpenWeatherService.class);
-            Call<WeatherContainer> weatherCall = service.getWeather(ID, cityQuery, UNITS);
-//            Log.d(TAG, "getCityWeather: " + weatherCall.request().toString());
-
-            weatherCall.enqueue(new Callback<WeatherContainer>() {
-                @Override
-                public void onResponse(Call<WeatherContainer> call, Response<WeatherContainer> response) {
-
-                    WeatherContainer weather = response.body();
-
-
-                    if (weather == null) {
-                        Log.d(TAG, "onResponse: " + weather);
-                        Toast.makeText(MainActivity.this, "City Unknown, Please try again", Toast.LENGTH_SHORT).show();
-                    } else {
-                        mCityText.setText(String.format("City: "+ weather.getName()));
-                        mTemperatureText.setText(String.format("Weather: "+ weather.getMain().getTemp()));
-                        mDescriptionText.setText(String.format("Description: "+ weather.getWeather().get(0).getDescription()));
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<WeatherContainer> call, Throwable t) {
-                    Toast.makeText(MainActivity.this, "Sorry didn't work", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onFailure: ");
-                    t.printStackTrace();
-                }
-            });
-        } else {
-            Toast.makeText(this, "No network connection", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,15 +78,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         //RecyclerView / LLM / Async Task
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRV.setLayoutManager(manager);
 
-        mAdapt = new RECYAdapter(mCardinfo);
+        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
-//        mTask.execute();
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
     }
@@ -181,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader onCreateLoader(int id, Bundle args) {
         switch (id) {
             case CALENDAR_LOADER:
+                //return CalendarCallbacks.onCreateCalendarLoader(this);
             default: return null;
         }
     }
