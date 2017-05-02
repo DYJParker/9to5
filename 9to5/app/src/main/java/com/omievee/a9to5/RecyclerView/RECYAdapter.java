@@ -1,5 +1,6 @@
 package com.omievee.a9to5.RecyclerView;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
         mCardList = list;
     }
 
-
     @Override
     public int getItemViewType(int position) {
         if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
@@ -37,10 +37,10 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
     public AbstractBaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         //TODO consider creating a standard, XML-defined CardView, and having each data type inflate and insert its own content
+        CardView item = (CardView) inflater.inflate(R.layout.base_item_cardview,parent,false);
         switch (viewType) {
             case CALENDAR_TYPE:
-                //TODO convert this over to a CardView
-                return new CalendarViewHolder(new LinearLayoutCompat(parent.getContext()));
+                return new CalendarViewHolder(item);
             default:
                 return null;
         }
