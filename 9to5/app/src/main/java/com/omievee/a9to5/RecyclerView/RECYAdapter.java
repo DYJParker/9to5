@@ -66,6 +66,13 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
     }
 
     public void addToList(AbstractBaseInformationObject obj) {
+        //for(AbstractBaseInformationObject listObj : mCardList){
+        //    if (obj.getClass().getCanonicalName() == listObj.getClass().getCanonicalName()){
+        //        listObj = obj;
+        //        notifyItemChanged(mCardList.indexOf(listObj));
+        //        return;
+        //    }
+        //}
         mCardList.add(obj);
         notifyItemInserted(mCardList.size() - 1);
     }
