@@ -25,6 +25,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
         mCardList = list;
     }
 
+
     @Override
     public int getItemViewType(int position) {
         if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
