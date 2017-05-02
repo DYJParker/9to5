@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.omievee.a9to5.MTA_API.MTA_Interface;
 import com.omievee.a9to5.MTA_API.MTA_POJO;
+import com.omievee.a9to5.MTA_API.MTA_object;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
@@ -139,9 +140,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     if(status == null) {
                         Toast.makeText(MainActivity.this, "Null", Toast.LENGTH_SHORT).show();
                     }else {
-
-
-
 
                     }
                 }
