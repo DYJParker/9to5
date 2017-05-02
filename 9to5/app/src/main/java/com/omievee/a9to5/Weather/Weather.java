@@ -1,4 +1,4 @@
-package com.omievee.a9to5;
+package com.omievee.a9to5.Weather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -50,5 +50,6 @@ import com.google.gson.annotations.SerializedName;
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
 
 }

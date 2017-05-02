@@ -1,4 +1,4 @@
-package com.omievee.a9to5;
+package com.omievee.a9to5.Weather;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -19,9 +19,11 @@ public class WeatherContainer {
     @Expose
     private Integer visibility;
 
+
     @SerializedName("dt")
     @Expose
     private Integer dt;
+
 
     @SerializedName("id")
     @Expose

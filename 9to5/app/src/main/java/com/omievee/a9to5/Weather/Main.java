@@ -1,4 +1,4 @@
-package com.omievee.a9to5;
+package com.omievee.a9to5.Weather;
 
 
 import com.google.gson.annotations.Expose;
