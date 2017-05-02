@@ -13,10 +13,10 @@ import java.util.List;
  */
 
 public class RECYAdapter extends RecyclerView.Adapter<RECYViewHolder> {
-    private List<Cardinfo> mCardList;
+    private List<AbstractBaseInformationObject> mCardList;
 
-    public RECYAdapter(List<Cardinfo> mCardList) {
-        this.mCardList = mCardList;
+    public RECYAdapter(List<AbstractBaseInformationObject> list) {
+        mCardList = list;
     }
 
 
@@ -28,11 +28,14 @@ public class RECYAdapter extends RecyclerView.Adapter<RECYViewHolder> {
 
     @Override
     public void onBindViewHolder(RECYViewHolder holder, int position) {
-        Cardinfo cards = mCardList.get(position);
+        if(mCardList.get(position) instanceof Cardinfo) {
+            Cardinfo cards = (Cardinfo) mCardList.get(position);
 
-        holder.mText1.setText(cards.getTest1());
-        holder.mText2.setText(cards.getTest2());
-        holder.mText3.setText(cards.getTest3());
+            holder.mText1.setText(cards.getTest1());
+            holder.mText2.setText(cards.getTest2());
+            holder.mText3.setText(cards.getTest3());
+
+        }
     }
 
     @Override
@@ -40,4 +43,8 @@ public class RECYAdapter extends RecyclerView.Adapter<RECYViewHolder> {
         return mCardList.size();
     }
 
+    public void addToList(AbstractBaseInformationObject obj){
+        mCardList.add(obj);
+        notifyItemInserted(mCardList.size()-1);
+    }
 }

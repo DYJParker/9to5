@@ -8,7 +8,7 @@ import android.widget.TextView;
  * Created by omievee on 5/1/17.
  */
 
-public class Cardinfo {
+public class Cardinfo extends AbstractBaseInformationObject{
 
     protected String test1, test2, test3;
 

@@ -1,17 +1,17 @@
 package com.omievee.a9to5;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.method.MultiTapKeyListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.omievee.a9to5.MTA_API.MTA_Interface;
 import com.omievee.a9to5.MTA_API.MTA_POJO;
+import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
@@ -31,11 +32,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String TAG = "MainActivity";
+    private static final int CALENDAR_LOADER = 0;
 
     RecyclerView mRV;
     RECYAdapter mAdapt;
-    List<Cardinfo> mCardinfo;
+    List<AbstractBaseInformationObject> mCardinfo;
     public static final String URL = "http://web.mta.info/status";
 
     @Override
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mRV.setAdapter(mAdapt);
 //        mTask.execute();
 
-
+        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
     }
 
     @Override
@@ -91,15 +94,30 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    //AsyncTask loading Card info
-    private AsyncTask mTask = new AsyncTask() {
-        @Override
-        protected Object doInBackground(Object[] params) {
-
-            return params;
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case CALENDAR_LOADER:
+            default: return null;
         }
-    };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {}
+
+//    //AsyncTask loading Card info
+//    private AsyncTask mTask = new AsyncTask() {
+//        @Override
+//        protected Object doInBackground(Object[] params) {
+////                 getMTAStatus();
+//            return params;
+//        }
+//    };
 
     protected void getMTAStatus() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -119,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<MTA_POJO> call, Response<MTA_POJO> response) {
                     MTA_POJO status = response.body();
                     if(status == null) {
-                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Null", Toast.LENGTH_SHORT).show();
                     }else {
+
 
 
 
@@ -129,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<MTA_POJO> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
 
                 }
             });
