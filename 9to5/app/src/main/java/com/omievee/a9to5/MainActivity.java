@@ -5,11 +5,18 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +41,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     //private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
-
-
 
     RecyclerView mRV;
     RECYAdapter mAdapt;
@@ -77,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -86,11 +91,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         //RecyclerView / LLM / Async Task
-
-
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float dpWidth = metrics.widthPixels/metrics.density;
+        mCardinfo = new ArrayList<>();
+        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager manager;
+        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
+
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 
@@ -118,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
-
 /*
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,11 +138,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float dpWidth = metrics.widthPixels/metrics.density;
+
         //RecyclerView / LLM / Async Task
         mCardinfo = new ArrayList<>();
         mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager manager;
+        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
@@ -168,16 +184,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader onCreateLoader(int id, Bundle args) {
         switch (id) {
             case CALENDAR_LOADER:
+                //return CalendarCallbacks.onCreateCalendarLoader(this);
             default: return null;
         }
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        if (data != null && data.moveToFirst()) {
+            //mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
+        }
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
 
-  */
+    }
+}
+*/

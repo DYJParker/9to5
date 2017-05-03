@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherContainer {
 
+
     @SerializedName("weather")
     @Expose
     private List<Weather> weather = null;
@@ -23,7 +24,6 @@ public class WeatherContainer {
     @SerializedName("dt")
     @Expose
     private Integer dt;
-
 
 
     @SerializedName("id")
