@@ -10,19 +10,19 @@ import org.simpleframework.xml.Root;
 @Root(name = "line")
 public class Line {
 
-    @Element(name = "text")
+    @Element(name = "text", required = false)
     private String text;
 
-    @Element(name = "Time")
+    @Element(name = "Time", required = false)
     private String Time;
 
     @Element(name = "status")
     private String status;
 
-    @Element(name = "Date")
+    @Element(name = "Date", required = false)
     private String Date;
 
-    @Element(name = "name")
+    @Element(name = "name", required = false)
     private String name;
 
     public String getText() {

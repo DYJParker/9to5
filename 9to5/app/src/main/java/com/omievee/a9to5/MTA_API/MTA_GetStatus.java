@@ -69,32 +69,33 @@ public class MTA_GetStatus {
                     .build();
 
             MTA_Interface servicestatus = builder.create(MTA_Interface.class);
-            retrofit2.Call<MTA_POJO> checkstatus = servicestatus.getService();
-            checkstatus.enqueue(new retrofit2.Callback<MTA_POJO>() {
+            retrofit2.Call<Service> checkstatus = servicestatus.getService();
+            checkstatus.enqueue(new retrofit2.Callback<Service>() {
                 @Override
-                public void onResponse(retrofit2.Call<MTA_POJO> call, retrofit2.Response<MTA_POJO> response) {
-                    MTA_POJO pojo = response.body();
+                public void onResponse(retrofit2.Call<Service> call, retrofit2.Response<Service> response) {
+                    Service pojo = response.body();
 
                     if (pojo == null) {
                         Toast.makeText(context, "No lines found", Toast.LENGTH_SHORT).show();
                     } else {
+                        Log.d(TAG, "onResponse: " + pojo.getSubway().get(0).getName());
                         MTA_object dataObject = new MTA_object(
-                                pojo.getService().getSubway().getLine()[0].getStatus(),
-                                pojo.getService().getSubway().getLine()[1].getStatus(),
-                                pojo.getService().getSubway().getLine()[2].getStatus(),
-                                pojo.getService().getSubway().getLine()[3].getStatus(),
-                                pojo.getService().getSubway().getLine()[4].getStatus(),
-                                pojo.getService().getSubway().getLine()[5].getStatus(),
-                                pojo.getService().getSubway().getLine()[6].getStatus(),
-                                pojo.getService().getSubway().getLine()[7].getStatus(),
-                                pojo.getService().getSubway().getLine()[8].getStatus(),
-                                pojo.getService().getSubway().getLine()[9].getStatus()
+                                pojo.getSubway().get(0).getStatus(),
+                                pojo.getSubway().get(1).getStatus(),
+                                pojo.getSubway().get(2).getStatus(),
+                                pojo.getSubway().get(3).getStatus(),
+                                pojo.getSubway().get(4).getStatus(),
+                                pojo.getSubway().get(5).getStatus(),
+                                pojo.getSubway().get(6).getStatus(),
+                                pojo.getSubway().get(7).getStatus(),
+                                pojo.getSubway().get(8).getStatus(),
+                                pojo.getSubway().get(9).getStatus()
                         );
                     }
                 }
 
                 @Override
-                public void onFailure(retrofit2.Call<MTA_POJO> call, Throwable t) {
+                public void onFailure(retrofit2.Call<Service> call, Throwable t) {
 
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();

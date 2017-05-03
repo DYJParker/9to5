@@ -1,7 +1,10 @@
 package com.omievee.a9to5.MTA_API;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+
+import java.util.List;
 
 import static android.R.attr.name;
 
@@ -9,13 +12,13 @@ import static android.R.attr.name;
  * Created by omievee on 5/1/17.
  */
 
-@Root
+@Root(name = "service", strict = false)
 public class Service {
     @Element(name = "timestamp")
     private String timestamp;
 
-    @Element(name = "subway")
-    private Subway subway;
+    @ElementList(name = "subway")
+    private List<Line> subway;
 
     @Element(name = "responsecode")
     private String responsecode;
@@ -28,11 +31,11 @@ public class Service {
         this.timestamp = timestamp;
     }
 
-    public Subway getSubway() {
+    public List<Line> getSubway() {
         return subway;
     }
 
-    public void setSubway(Subway subway) {
+    public void setSubway(List<Line> subway) {
         this.subway = subway;
     }
 
