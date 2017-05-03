@@ -1,9 +1,6 @@
 package com.omievee.a9to5;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
@@ -15,28 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-import com.omievee.a9to5.MTA_API.MTA_Interface;
-import com.omievee.a9to5.MTA_API.MTA_POJO;
-import com.omievee.a9to5.MTA_API.MTA_object;
-import com.omievee.a9to5.MTA_API.MTA_Interface;
-import com.omievee.a9to5.MTA_API.MTA_POJO;
-import com.omievee.a9to5.MTA_API.MTA_object;
+
+import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConver
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivity";
@@ -45,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView mRV;
     RECYAdapter mAdapt;
     List<AbstractBaseInformationObject> mCardinfo;
-    public static final String URL = "http://web.mta.info/status";
+//    public static final String URL = "http://web.mta.info/status";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        mTask.execute();
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
+
+
+        //gets Status of MTA lines updated live
+        MTA_GetStatus.getMTAStatus(this);
     }
 
     @Override
@@ -124,41 +110,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        }
 //    };
 
-    protected void getMTAStatus() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if (networkInfo != null && networkInfo.isConnected()) {
-            Retrofit builder = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addConverterFactory(SimpleXmlConverterFactory.create())
-                    .build();
-
-            MTA_Interface serviceStatus = builder.create(MTA_Interface.class);
-            Call<MTA_POJO> checkStatus = serviceStatus.getService();
-
-            checkStatus.enqueue(new Callback<MTA_POJO>() {
-                @Override
-                public void onResponse(Call<MTA_POJO> call, Response<MTA_POJO> response) {
-                    MTA_POJO status = response.body();
-                    if(status == null) {
-                        Toast.makeText(MainActivity.this, "Null", Toast.LENGTH_SHORT).show();
-                    }else {
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MTA_POJO> call, Throwable t) {
-                    Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-        }
 
 
     }
 
 
-}

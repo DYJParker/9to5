@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121"
+    android:layout_marginBottom="8dp"
     android:orientation="vertical">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#212121">
@@ -157,7 +159,6 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/mG"
             android:layout_alignTop="@+id/status7"
-            android:backgroundTint=""
             android:padding="10dp"
             android:text="7"
             android:textColor="#9C27B0"
@@ -183,8 +184,7 @@
             android:layout_marginLeft="55dp"
             android:padding="10dp"
             android:text="J-Z"
-            android:textColor="#8D6E63
-"
+            android:textColor="#8D6E63"
             android:textSize="20sp"
             android:textStyle="bold" />
 

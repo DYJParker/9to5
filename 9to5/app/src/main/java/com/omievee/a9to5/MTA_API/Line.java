@@ -1,20 +1,33 @@
 package com.omievee.a9to5.MTA_API;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
  * Created by omievee on 5/1/17.
  */
 
+
+@Root (name = "line")
 public class Line {
 
+
+
+    @Element (name = "text")
     private String text;
 
+    @Element (name = "Time")
     private String Time;
 
+    @Element (name = "status")
     private String status;
 
+    @Element (name = "Date")
     private String Date;
 
+    @Element (name = "name")
     private String name;
+
 
     public String getText ()
     {

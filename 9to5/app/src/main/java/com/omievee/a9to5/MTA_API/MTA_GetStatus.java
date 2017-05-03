@@ -1,0 +1,111 @@
+package com.omievee.a9to5.MTA_API;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import com.omievee.a9to5.MainActivity;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.http.Url;
+
+/**
+ * Created by omievee on 5/2/17.
+ */
+
+public class MTA_GetStatus {
+
+    public static final String URL = "http://web.mta.info/status/";
+    private static final String TAG = "TAG :";
+
+
+    public static void getMTAStatus(final Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+
+            //    OkHttpClient client = new OkHttpClient();
+//
+//            final Request request = new Request.Builder()
+//                    .url("http://web.mta.info/status/serviceStatus.txt")
+//                    .get()
+//                    .addHeader("cache-control", "no-cache")
+//                    .addHeader("postman-token", "89416f96-811b-9f70-53a4-9c6192079864")
+//                    .build();
+//
+//            client.newCall(request).enqueue(new Callback() {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                @Override
+//                public void onResponse(Call call, Response response) throws IOException {
+//
+//                        }
+//
+//
+            Retrofit builder = new Retrofit.Builder()
+                    .baseUrl(URL)
+                    .client(new OkHttpClient())
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
+                    .build();
+
+            MTA_Interface servicestatus = builder.create(MTA_Interface.class);
+            retrofit2.Call<MTA_POJO> checkstatus = servicestatus.getService();
+            checkstatus.enqueue(new retrofit2.Callback<MTA_POJO>() {
+                @Override
+                public void onResponse(retrofit2.Call<MTA_POJO> call, retrofit2.Response<MTA_POJO> response) {
+                    MTA_POJO pojo = response.body();
+
+                    if (pojo == null) {
+                        Toast.makeText(context, "No lines found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        MTA_object dataObject = new MTA_object(
+                                pojo.getService().getSubway().getLine()[0].getStatus(),
+                                pojo.getService().getSubway().getLine()[1].getStatus(),
+                                pojo.getService().getSubway().getLine()[2].getStatus(),
+                                pojo.getService().getSubway().getLine()[3].getStatus(),
+                                pojo.getService().getSubway().getLine()[4].getStatus(),
+                                pojo.getService().getSubway().getLine()[5].getStatus(),
+                                pojo.getService().getSubway().getLine()[6].getStatus(),
+                                pojo.getService().getSubway().getLine()[7].getStatus(),
+                                pojo.getService().getSubway().getLine()[8].getStatus(),
+                                pojo.getService().getSubway().getLine()[9].getStatus()
+                        );
+                    }
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<MTA_POJO> call, Throwable t) {
+
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                }
+            });
+
+
+
+        }
+
+    }
+
+}
+
