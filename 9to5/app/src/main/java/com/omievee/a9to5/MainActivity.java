@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //RecyclerView / LLM / Async Task
         mRV = (RecyclerView) findViewById(R.id.RECY);
         RecyclerView.LayoutManager manager;
-        if (dpWidth < 900 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
