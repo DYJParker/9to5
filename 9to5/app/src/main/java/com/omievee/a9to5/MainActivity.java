@@ -1,11 +1,10 @@
 package com.omievee.a9to5;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.database.Cursor;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -14,25 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
+import com.omievee.a9to5.JobScheduler.JobService;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
-import com.omievee.a9to5.Weather.OpenWeatherService;
-import com.omievee.a9to5.Weather.Weather;
-import com.omievee.a9to5.Weather.WeatherContainer;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
 import java.util.ArrayList;
@@ -40,7 +25,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     //private static final String TAG = "MainActivity";
+
+
     private static final int CALENDAR_LOADER = 0;
+
+    //JobScheduler
+    public static final int JOB_ID = 1;
 
     RecyclerView mRV;
     RECYAdapter mAdapt;
@@ -92,20 +82,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //RecyclerView / LLM / Async Task
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float dpWidth = metrics.widthPixels/metrics.density;
+        float dpWidth = metrics.widthPixels / metrics.density;
         mCardinfo = new ArrayList<>();
         mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         RecyclerView.LayoutManager manager;
-        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        if (dpWidth < 500)
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        else manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 
 
-        String cityQuery = "New York";
+        //      String cityQuery = "New York";
         //mEditText.getText().toString();
 //        if (cityQuery.trim().isEmpty()) {
 //            //mEditText.setError("Pleas re-enter");
@@ -115,13 +106,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        }
 
 
-        WeatherCreate.getCityWeather(cityQuery, this);
+        //       WeatherCreate.getCityWeather(cityQuery, this);
+
+        JobInfo job = new JobInfo.Builder(JOB_ID,
+                new ComponentName(this,JobService.class))
+                .setPeriodic(5000).build();
+
 
     }
 }
-
-
-
 
 
 //Extra Bullshit////////////////////////////////////////////////////////////////////////////////////
