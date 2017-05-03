@@ -10,29 +10,23 @@ import static android.R.attr.name;
  * Created by omievee on 5/1/17.
  */
 
-
 @Root(name = "subway")
 public class Subway {
 
-    @ElementList (name = "Line")
+    @ElementList(name = "line")
     private Line[] line;
 
-    public Line[] getLine ()
-    {
+    public Line[] getLine() {
         return line;
     }
 
-    public void setLine (Line[] line)
-    {
+    public void setLine(Line[] line) {
         this.line = line;
     }
 
-
-
     @Override
-    public String toString()
-    {
-        return "ClassPojo [line = "+line+"]";
+    public String toString() {
+        return "ClassPojo [line = " + line + "]";
     }
 }
 
