@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRV.setAdapter(mAdapt);
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
+
+        AlertThrower.setAlert(this);
     }
 
     @Override
