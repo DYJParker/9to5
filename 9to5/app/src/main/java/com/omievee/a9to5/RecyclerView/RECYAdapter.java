@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
@@ -22,6 +23,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
+
     private static final int CALENDAR_TYPE = 0;
     private static final int MTA_TYPE = 1;
 
@@ -70,7 +72,6 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
             holder.bindDataToViews(mCardList.get(position));
 
         }
-
         /*else if (mCardList.get(position) instanceof CalendarEvents){
 
             holder.bindDataToViews(mCardList.get(position));

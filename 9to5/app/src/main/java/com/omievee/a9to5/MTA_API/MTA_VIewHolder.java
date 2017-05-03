@@ -10,13 +10,14 @@ import com.omievee.a9to5.RecyclerView.AbstractBaseHolder;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
 import static com.omievee.a9to5.R.id.mL;
+import static com.omievee.a9to5.R.id.visible;
 
 /**
  * Created by omievee on 5/2/17.
  */
 
 public class MTA_VIewHolder extends AbstractBaseHolder{
-   public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG;
+   public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG, mCollapse;
 
     public MTA_VIewHolder(View itemView) {
         super(itemView);
@@ -24,6 +25,7 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
         View content = LayoutInflater.from(itemView.getContext()).inflate(R.layout.mta_layout, null);
 
 
+        mCollapse = (TextView) itemView.findViewById(R.id.collapse1);
         mS123 = (TextView) content.findViewById(R.id.status123);
         mS456 = (TextView) content.findViewById(R.id.status456);
         mSACE = (TextView) content.findViewById(R.id.statusACE);
@@ -55,6 +57,7 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
         mS7.setText(localdata.getM7());
         mSL.setText(localdata.getmL());
         mSJZ.setText(localdata.getmJZ());
+
 
 
     }

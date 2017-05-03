@@ -18,6 +18,7 @@ public class RECYViewHolder extends AbstractBaseHolder {
     public CardView mCardView;
 
 
+
     public RECYViewHolder(View itemView) {
         super(itemView);
 
