@@ -17,7 +17,7 @@ public class CalendarViewHolder extends AbstractBaseHolder {
         super(itemView);
         //VIEWTYPE content = LayoutInflater.from(itemView.getContext()).inflate(R.layout.YOUR_XML, null);
         int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.typ_margin);
-        int bottomPadding = padding + itemView.getResources().getDimensionPixelOffset(R.dimen.default_cardview_bottom_margin);
+        int bottomPadding = itemView.getResources().getDimensionPixelOffset(R.dimen.default_cardview_bottom_margin);
         //content.setPadding(padding, padding, padding, bottomPadding);
 
         //TODO assign stuff to your member variable views here

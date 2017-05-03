@@ -8,7 +8,9 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +27,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int CALENDAR_LOADER = 0;
 
     RecyclerView mRV;
-    RECYAdapter mAdapt;
+    public RECYAdapter mAdapt;
     List<AbstractBaseInformationObject> mCardinfo;
-//    public static final String URL = "http://web.mta.info/status";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float dpWidth = metrics.widthPixels/metrics.density;
 
         //RecyclerView / LLM / Async Task
         mRV = (RecyclerView) findViewById(R.id.RECY);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager manager;
+        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
-//        mTask.execute();
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
 
@@ -99,20 +103,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoaderReset(Loader loader) {}
-
-//    //AsyncTask loading Card info
-//    private AsyncTask mTask = new AsyncTask() {
-//        @Override
-//        protected Object doInBackground(Object[] params) {
-////                 getMTAStatus();
-//            return params;
-//        }
-//    };
-
-
-
+    public void onLoaderReset(Loader loader) {
 
     }
-
-
+}

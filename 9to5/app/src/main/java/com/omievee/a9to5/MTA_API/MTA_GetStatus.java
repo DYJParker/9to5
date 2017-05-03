@@ -6,9 +6,11 @@ import android.net.NetworkInfo;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.omievee.a9to5.MainActivity;
+import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,39 +31,17 @@ import retrofit2.http.Url;
  * Created by omievee on 5/2/17.
  */
 
-public class MTA_GetStatus {
+public class MTA_GetStatus  extends AbstractBaseInformationObject{
+    TextView m123;
 
     public static final String URL = "http://web.mta.info/status/";
     private static final String TAG = "TAG :";
-
 
     public static void getMTAStatus(final Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
-
-            //    OkHttpClient client = new OkHttpClient();
-//
-//            final Request request = new Request.Builder()
-//                    .url("http://web.mta.info/status/serviceStatus.txt")
-//                    .get()
-//                    .addHeader("cache-control", "no-cache")
-//                    .addHeader("postman-token", "89416f96-811b-9f70-53a4-9c6192079864")
-//                    .build();
-//
-//            client.newCall(request).enqueue(new Callback() {
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                @Override
-//                public void onResponse(Call call, Response response) throws IOException {
-//
-//                        }
-//
-//
             Retrofit builder = new Retrofit.Builder()
                     .baseUrl(URL)
                     .client(new OkHttpClient())
@@ -78,7 +58,7 @@ public class MTA_GetStatus {
                     if (pojo == null) {
                         Toast.makeText(context, "No lines found", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.d(TAG, "onResponse: " + pojo.getSubway().get(0).getName());
+                        Log.d(TAG, "onResponse: " + pojo.getSubway().get(3).getStatus());
                         MTA_object dataObject = new MTA_object(
                                 pojo.getSubway().get(0).getStatus(),
                                 pojo.getSubway().get(1).getStatus(),
@@ -91,6 +71,8 @@ public class MTA_GetStatus {
                                 pojo.getSubway().get(8).getStatus(),
                                 pojo.getSubway().get(9).getStatus()
                         );
+                        ((MainActivity)context).mAdapt.addToList(dataObject);
+
                     }
                 }
 
@@ -101,6 +83,11 @@ public class MTA_GetStatus {
                     t.printStackTrace();
                 }
             });
+
+
+
+
+
 
 
 

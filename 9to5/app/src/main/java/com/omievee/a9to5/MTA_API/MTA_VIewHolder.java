@@ -39,6 +39,7 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
 
         ((CardView) itemView).addView(content, 0);
 
+
     }
 
     @Override
@@ -54,6 +55,7 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
         mS7.setText(localdata.getM7());
         mSL.setText(localdata.getmL());
         mSJZ.setText(localdata.getmJZ());
+
 
     }
 }
