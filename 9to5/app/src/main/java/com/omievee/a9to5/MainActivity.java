@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.omievee.a9to5.JobScheduler.JobService;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
@@ -26,8 +27,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     //private static final String TAG = "MainActivity";
 
-
     private static final int CALENDAR_LOADER = 0;
+
+    public static String sCityQuery = "New York";
 
     //JobScheduler
     public static final int JOB_ID = 1;
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         System.out.print("LOADER is being called");
-
 
         return null;
 
@@ -75,10 +76,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-
 
         //RecyclerView / LLM / Async Task
         DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 
-
         //      String cityQuery = "New York";
         //mEditText.getText().toString();
 //        if (cityQuery.trim().isEmpty()) {
@@ -105,17 +103,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //
 //        }
 
-
-        //       WeatherCreate.getCityWeather(cityQuery, this);
+        WeatherCreate.getCityWeather(sCityQuery, this);
 
         JobInfo job = new JobInfo.Builder(JOB_ID,
-                new ComponentName(this,JobService.class))
-                .setPeriodic(5000).build();
+                new ComponentName(this, JobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(1000 * 60 * 10)
+                .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
+                .build();
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
+    }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).cancel(JOB_ID);
     }
 }
-
 
 //Extra Bullshit////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,7 +1,9 @@
 package com.omievee.a9to5.JobScheduler;
 
 import android.app.job.JobParameters;
+import android.util.Log;
 
+import com.omievee.a9to5.MainActivity;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
 /**
@@ -9,16 +11,18 @@ import com.omievee.a9to5.Weather.WeatherCreate;
  */
 
 public class JobService extends android.app.job.JobService {
+    private static final String TAG = "JobService";
     @Override
     public boolean onStartJob(JobParameters params) {
-        String cityQuery = "New York";
-        WeatherCreate.getCityWeather(cityQuery, getApplicationContext());
-        
+        Log.d(TAG, "onStartJob ran");
+        WeatherCreate.getCityWeather(MainActivity.sCityQuery, getApplicationContext());
+        jobFinished(params,true);
         return false;
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
+        Log.e(TAG, "onStopJob stopped!");
         return false;
     }
 }

@@ -24,6 +24,7 @@ import com.omievee.a9to5.MainActivity;
 import com.omievee.a9to5.R;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
+import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.OpenWeatherService;
 import com.omievee.a9to5.Weather.WeatherContainer;
@@ -134,7 +135,7 @@ working on this for the alerts
 
 
 
-                        ((MainActivity)context).getmAdapt().addToList(mTemp);
+                        InterfaceSingleton.getInstance().updateList(mTemp);
 
                         Log.d(TAG, "city: " + weather.getName());
                         Log.d(TAG, "description: " + weather.getWeather().get(0).getDescription());
