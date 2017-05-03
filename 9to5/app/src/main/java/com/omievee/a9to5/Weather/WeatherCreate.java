@@ -39,8 +39,65 @@ public class WeatherCreate{
     public static final String ID = "bfb4d3e098fa94eb0ea53de3c479236e";
     public static final String UNITS = "imperial";
 
+/*
+working on this for the alerts
+    public static ArrayList<String> getCityWeatherAlert(String cityQuery, final Context context) {
+        final ArrayList<String> arr = new ArrayList<String>();
 
-    public static void getCityWeather(String cityQuery, final Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            OpenWeatherService service = retrofit.create(OpenWeatherService.class);
+            final Call<WeatherContainer> weatherCall = service.getWeather(ID, cityQuery, UNITS);
+
+
+            weatherCall.enqueue(new Callback<WeatherContainer>() {
+                @Override
+                public void onResponse(Call<WeatherContainer> call, Response<WeatherContainer> response) {
+
+
+                    WeatherContainer weather = response.body();
+
+
+                    if (weather == null) {
+                        Log.d(TAG, "onResponse: " + weather);
+                        //Toast.makeText(MainActivity.context, "City Unknown, Please try again", Toast.LENGTH_SHORT).show();
+                        arr.add(1, "Error");
+                    } else {
+                        //TODO create object and add it to recyclerview
+
+                        String title = "Current Temp: " + String.format("%.1f\u2109", weather.getMain().getTemp());
+                        String content = "Hi: " + String.format("%.1f\u2109",weather.getMain().getTempMax())
+                                + ", Low: " + String.format("%.1f\u2109",weather.getMain().getTempMax())
+                                + ", Current Conditions: " + weather.getWeather().get(0).getDescription();
+
+                        arr.add(1, content);
+                        arr.add(2,content);
+                        Log.d(TAG, title);
+                        Log.d(TAG, content);
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WeatherContainer> call, Throwable t) {
+                    //Toast.makeText(MainActivity.context, "Sorry didn't work", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onFailure: ");
+                    t.printStackTrace();
+                }
+            });
+        } else {
+            Toast.makeText(context, "No network connection", Toast.LENGTH_SHORT).show();
+        }
+        return arr;
+    }
+*/
+        public static void getCityWeather(String cityQuery, final Context context) {
 
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -84,7 +141,6 @@ public class WeatherCreate{
                         Log.d(TAG, "temp: " +  weather.getMain().getTemp());
                         Log.d(TAG, "temp: " +  weather.getMain().getTempMax());
                         Log.d(TAG, "temp: " +  weather.getMain().getTempMin());
-
 
                     }
 

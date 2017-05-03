@@ -156,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //        mTask.execute();
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
+
+        AlertThrower.setAlert(this);
     }
 
     @Override
