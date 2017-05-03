@@ -35,17 +35,13 @@ import com.google.gson.annotations.SerializedName;
         this.main = main;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() {return description;}
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getIcon() {
-        return icon;
-    }
+    public String getIcon() {return icon;}
 
     public void setIcon(String icon) {
         this.icon = icon;

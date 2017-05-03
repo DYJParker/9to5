@@ -71,19 +71,24 @@ public class WeatherCreate{
                         WeatherInfoObject mTemp = new WeatherInfoObject(
                                 weather.getName(),
                                 weather.getWeather().get(0).getDescription(),
-                                weather.getMain().getTemp());
+                                weather.getMain().getTemp(),
+                                weather.getMain().getTempMax(),
+                                weather.getMain().getTempMin());
+
+
 
                         ((MainActivity)context).getmAdapt().addToList(mTemp);
 
                         Log.d(TAG, "city: " + weather.getName());
                         Log.d(TAG, "description: " + weather.getWeather().get(0).getDescription());
                         Log.d(TAG, "temp: " +  weather.getMain().getTemp());
+                        Log.d(TAG, "temp: " +  weather.getMain().getTempMax());
+                        Log.d(TAG, "temp: " +  weather.getMain().getTempMin());
 
 
                     }
 
                 }
-
 
                 @Override
                 public void onFailure(Call<WeatherContainer> call, Throwable t) {

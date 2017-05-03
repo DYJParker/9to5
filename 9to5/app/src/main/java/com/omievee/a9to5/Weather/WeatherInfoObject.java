@@ -11,13 +11,15 @@ import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
 public class WeatherInfoObject extends AbstractBaseInformationObject {
 private String mCity, mDescription;
-private Double mTemperature;
+private Double mTemperature, mHi, mLow;
 
 
-    public WeatherInfoObject(String city, String description, Double tempurature){
+    public WeatherInfoObject(String city, String description, Double tempurature, Double hi, Double low){
         mCity = city;
         mDescription = description;
         mTemperature = tempurature;
+        mHi = hi;
+        mLow = low;
     }
     public String getCity() {
         return mCity;
@@ -27,6 +29,8 @@ private Double mTemperature;
         this.mCity = mCity;
     }
 
+
+
     public String getDescription() {
         return mDescription;
     }
@@ -35,11 +39,26 @@ private Double mTemperature;
         this.mDescription = mDescription;
     }
 
-    public Double getTemperature() {
-        return mTemperature;
-    }
+
+
+    public Double getTemperature() {return mTemperature;}
 
     public void setTemperature(Double mTemperature) {
         this.mTemperature = mTemperature;
     }
+
+
+
+    public Double getHi() {return mHi;}
+
+    public void setHi(Double mHi) {
+        this.mHi = mHi;
+    }
+
+
+
+    public Double getLow() {return mLow;}
+
+    public void setLow(Double mTemperature) {this.mTemperature = mTemperature;}
+
 }

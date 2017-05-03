@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
 import com.omievee.a9to5.R;
+import com.omievee.a9to5.R;
 import com.omievee.a9to5.Weather.Weather;
 import com.omievee.a9to5.Weather.WeatherInfoObject;
 import com.omievee.a9to5.Weather.WeatherViewHolder;
@@ -57,7 +58,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
                 return new CalendarViewHolder(new LinearLayoutCompat(parent.getContext()));
             case WEATHER_TYPE:
                 Log.d(TAG, "inflating: " + 1);
-                return new WeatherViewHolder(inflater.inflate(R.layout.weather_cardview, parent, false));
+                return new WeatherViewHolder(item);
             default:
                 return null;
         }
@@ -76,9 +77,9 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
             RECYholder.mText1.setText(cards.getTest1());
             RECYholder.mText2.setText(cards.getTest2());
             RECYholder.mText3.setText(cards.getTest3());
-        } /*else if (mCardList.get(position) instanceof CalendarEvents){
+        } else if (mCardList.get(position) instanceof WeatherInfoObject){
             holder.bindDataToViews(mCardList.get(position));
-        }*/
+        }
     }
 
     @Override
