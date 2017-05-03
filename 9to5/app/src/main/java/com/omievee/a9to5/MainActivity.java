@@ -38,9 +38,13 @@ import com.omievee.a9to5.Weather.WeatherCreate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     //private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
+    public static String cityQuery = "New York";
+
 
     RecyclerView mRV;
     RECYAdapter mAdapt;
@@ -104,8 +108,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 
-
-        String cityQuery = "New York";
         //mEditText.getText().toString();
 //        if (cityQuery.trim().isEmpty()) {
 //            //mEditText.setError("Pleas re-enter");
@@ -114,8 +116,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //
 //        }
 
-
-        WeatherCreate.getCityWeather(cityQuery, this);
+        AlertThrower.setAlert(this);
+        //WeatherCreate.getCityWeather(cityQuery, this);
 
     }
 }

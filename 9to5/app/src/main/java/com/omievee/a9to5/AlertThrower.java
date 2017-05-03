@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.omievee.a9to5.Weather.WeatherCreate;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -16,8 +20,6 @@ import java.util.Calendar;
 
 public class AlertThrower extends BroadcastReceiver {
     public static final int REQUEST = 42;
-    private static String sTitle = "Your Weather";
-    private static String sText = "Loren Ipsum...";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -44,15 +46,15 @@ public class AlertThrower extends BroadcastReceiver {
                 AlarmManager.INTERVAL_DAY,intent);
     }
 
-    public static void setAlert(Context ctx){
+    public static void setAlert(Context ctx, String title, String content){
         //this works
         //not called by weather methods
         //needs static variables
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx)
                 .setSmallIcon(R.drawable.ic_cloud_black_24px)// find better cloud
-                .setContentTitle(sTitle)
-                .setContentText(sText)
+                .setContentTitle(arr.get(0))
+                .setContentText(arr.get(1))
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setContentIntent(PendingIntent.getActivity(ctx,
@@ -60,11 +62,6 @@ public class AlertThrower extends BroadcastReceiver {
                         0));
         ((NotificationManager)ctx.getSystemService(Context.NOTIFICATION_SERVICE))
                 .notify(REQUEST,builder.build());
-    }
-
-    public static void setContent(String title, String text){
-        sTitle = title;
-        sText = text;
     }
 
 }
