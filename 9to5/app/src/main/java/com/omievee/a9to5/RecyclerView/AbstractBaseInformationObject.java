@@ -5,5 +5,4 @@ package com.omievee.a9to5.RecyclerView;
  */
 
 public abstract class AbstractBaseInformationObject extends Object {
-
 }

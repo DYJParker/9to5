@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
 import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.MTA_API.MTA_VIewHolder;
@@ -17,8 +18,6 @@ import com.omievee.a9to5.Weather.WeatherInfoObject;
 import com.omievee.a9to5.Weather.WeatherViewHolder;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by omievee on 5/1/17.
@@ -43,8 +42,9 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         else if (mCardList.get(position) instanceof WeatherInfoObject)
             return WEATHER_TYPE;
 
-        else
-            throw new RuntimeException("Invalid data!");
+        else if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
+            //elseif
+        else throw new RuntimeException("Invalid data!");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
             RECYholder.mText1.setText(cards.getTest1());
             RECYholder.mText2.setText(cards.getTest2());
             RECYholder.mText3.setText(cards.getTest3());
-        } else if (mCardList.get(position) instanceof AbstractBaseInformationObject) {
+        } else if (holder != null) {
             holder.bindDataToViews(mCardList.get(position));
         }
         /*else if (mCardList.get(position) instanceof CalendarEvents){

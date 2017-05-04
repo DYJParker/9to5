@@ -15,18 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.omievee.a9to5.Calendar.CalendarCallbacks;
 import com.omievee.a9to5.JobScheduler.JobService;
 import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
-import com.omievee.a9to5.RecyclerView.Cardinfo;
+import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    //private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
 
     public static String sCityQuery = "New York";
@@ -36,38 +36,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     RecyclerView mRV;
     public RECYAdapter mAdapt;
-    List<AbstractBaseInformationObject> mCardinfo;
-
-    public static final String TAG = "TEST TEST TEST ";
-
-    public static final String BASE_URL = "http://api.openweathermap.org/";
-    public static final String ID = "bfb4d3e098fa94eb0ea53de3c479236e";
-    public static final String UNITS = "imperial";
-
-    public RECYAdapter getmAdapt() {
-        return mAdapt;
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        System.out.print("LOADER is being called");
-
-        return null;
-
-        //Check Dave's Shit
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //Check Dave's Shit
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        //Check Dave's Shit
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +50,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //RecyclerView / LLM / Async Task
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float dpWidth = metrics.widthPixels / metrics.density;
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
+
         mRV = (RecyclerView) findViewById(R.id.RECY);
         RecyclerView.LayoutManager manager;
         if (dpWidth < 500)
@@ -110,6 +77,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         AlertThrower.setAlert(this, "testTitle", "testContent");
 
         MTA_GetStatus.getMTAStatus(this);
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case CALENDAR_LOADER:
+                return CalendarCallbacks.onCreateCalendarLoader(this);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.moveToFirst()) {
+            InterfaceSingleton.getInstance().updateList(CalendarCallbacks.onCalendarLoadFinished(data));
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        
     }
 
     @Override
