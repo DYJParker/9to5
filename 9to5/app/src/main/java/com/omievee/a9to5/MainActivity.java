@@ -4,11 +4,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.database.Cursor;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -17,14 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.omievee.a9to5.JobScheduler.JobService;
+import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
@@ -43,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final int JOB_ID = 1;
 
     RecyclerView mRV;
-    RECYAdapter mAdapt;
+    public RECYAdapter mAdapt;
     List<AbstractBaseInformationObject> mCardinfo;
 
     public static final String TAG = "TEST TEST TEST ";
@@ -96,21 +88,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         RecyclerView.LayoutManager manager;
         if (dpWidth < 500)
             manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        else manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        else
+            manager = new StaggeredGridLayoutManager((int) dpWidth / 250, StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 
-        //mEditText.getText().toString();
-//        if (cityQuery.trim().isEmpty()) {
-//            //mEditText.setError("Pleas re-enter");
-//        }
-//        else {
-//
-//        }
-
         WeatherCreate.getCityWeather(sCityQuery, this, false);
+
+        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
 
         JobInfo job = new JobInfo.Builder(JOB_ID,
                 new ComponentName(this, JobService.class))
@@ -120,7 +107,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .build();
         ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
-        AlertThrower.setAlert(this,"testTitle","testContent");
+        AlertThrower.setAlert(this, "testTitle", "testContent");
+
+        MTA_GetStatus.getMTAStatus(this);
     }
 
     @Override
@@ -130,84 +119,3 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).cancel(JOB_ID);
     }
 }
-
-//Extra Bullshit////////////////////////////////////////////////////////////////////////////////////
-
-
-
-/*
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float dpWidth = metrics.widthPixels/metrics.density;
-
-        //RecyclerView / LLM / Async Task
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
-        mRV = (RecyclerView) findViewById(R.id.RECY);
-        RecyclerView.LayoutManager manager;
-        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        mRV.setLayoutManager(manager);
-
-        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
-        mRV.setAdapter(mAdapt);
-//        mTask.execute();
-
-        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
-
-        AlertThrower.setAlert(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Loader onCreateLoader(int id, Bundle args) {
-        switch (id) {
-            case CALENDAR_LOADER:
-                //return CalendarCallbacks.onCreateCalendarLoader(this);
-            default: return null;
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
-            //mAdapt.addToList(CalendarCallbacks.onCalendarLoadFinished(data));
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
-}
-*/

@@ -5,9 +5,13 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
+import com.omievee.a9to5.MTA_API.MTA_GetStatus;
+import com.omievee.a9to5.MTA_API.MTA_VIewHolder;
+import com.omievee.a9to5.MTA_API.MTA_object;
 import com.omievee.a9to5.R;
 import com.omievee.a9to5.Weather.WeatherInfoObject;
 import com.omievee.a9to5.Weather.WeatherViewHolder;
@@ -20,9 +24,10 @@ import static android.content.ContentValues.TAG;
  * Created by omievee on 5/1/17.
  */
 
-public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implements InterfaceSingleton.ListUpdateListener{
+public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implements InterfaceSingleton.ListUpdateListener {
     private static final int CALENDAR_TYPE = 0;
     private static final int WEATHER_TYPE = 1;
+    private static final int MTA_TYPE = 2;
 
     private List<AbstractBaseInformationObject> mCardList;
 
@@ -33,37 +38,31 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
 
     @Override
     public int getItemViewType(int position) {
-        /*if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
-            //elseif
-        else*/
-        //What type of object
+        if (mCardList.get(position) instanceof MTA_object) return MTA_TYPE;
 
-        if(mCardList.get(position) instanceof WeatherInfoObject)
+        else if (mCardList.get(position) instanceof WeatherInfoObject)
             return WEATHER_TYPE;
 
-       //add else/ifs to each Object type.
-
         else
-        throw new RuntimeException("Invalid data!");
+            throw new RuntimeException("Invalid data!");
     }
 
     @Override
     public AbstractBaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        CardView item = (CardView) inflater.inflate(R.layout.base_item_cardview,parent,false);
+        CardView item = (CardView) inflater.inflate(R.layout.base_item_cardview, parent, false);
 
         switch (viewType) {
             case CALENDAR_TYPE:
-                return new CalendarViewHolder(new LinearLayoutCompat(parent.getContext()));
+                return new CalendarViewHolder(item);
+            case MTA_TYPE:
+                return new MTA_VIewHolder(item);
             case WEATHER_TYPE:
-                Log.d(TAG, "inflating: " + 1);
                 return new WeatherViewHolder(item);
             default:
                 return null;
         }
         //return new RECYViewHolder(inflater.inflate(R.layout.cardview, parent, false));
-
-        //View Holder
     }
 
     @Override
@@ -72,13 +71,16 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
             RECYViewHolder RECYholder = (RECYViewHolder) holder;
             Cardinfo cards = (Cardinfo) mCardList.get(position);
 
-
             RECYholder.mText1.setText(cards.getTest1());
             RECYholder.mText2.setText(cards.getTest2());
             RECYholder.mText3.setText(cards.getTest3());
-        } else if (mCardList.get(position) instanceof WeatherInfoObject){
+        } else if (mCardList.get(position) instanceof AbstractBaseInformationObject) {
             holder.bindDataToViews(mCardList.get(position));
         }
+        /*else if (mCardList.get(position) instanceof CalendarEvents){
+
+            holder.bindDataToViews(mCardList.get(position));
+        }*/
     }
 
     @Override
@@ -86,6 +88,17 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         return mCardList.size();
     }
 
+    public void addToList(AbstractBaseInformationObject obj) {
+        //for(AbstractBaseInformationObject listObj : mCardList){
+        //    if (obj.getClass().getCanonicalName() == listObj.getClass().getCanonicalName()){
+        //        listObj = obj;
+        //        notifyItemChanged(mCardList.indexOf(listObj));
+        //        return;
+        //    }
+        //}
+        mCardList.add(obj);
+        notifyItemInserted(mCardList.size() - 1);
+    }
 
     @Override
     public void updateList(AbstractBaseInformationObject obj) {
