@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         //gets Status of MTA lines updated live
-        MTA_GetStatus.getMTAStatus(this);
+      //  MTA_GetStatus.getMTAStatus(this);
+
     }
 
     @Override
@@ -104,6 +105,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader loader) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MTA_GetStatus.getMTAStatus(this);
 
     }
 }
