@@ -1,8 +1,5 @@
 package com.omievee.a9to5.Weather;
 
-import android.widget.TextView;
-
-import com.omievee.a9to5.R;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
 /**
@@ -10,17 +7,17 @@ import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
  */
 
 public class WeatherInfoObject extends AbstractBaseInformationObject {
-private String mCity, mDescription;
-private Double mTemperature, mHi, mLow;
+    private String mCity, mDescription;
+    private Double mTemperature, mHi, mLow;
 
-
-    public WeatherInfoObject(String city, String description, Double tempurature, Double hi, Double low){
+    public WeatherInfoObject(String city, String description, Double tempurature, Double hi, Double low) {
         mCity = city;
         mDescription = description;
         mTemperature = tempurature;
         mHi = hi;
         mLow = low;
     }
+
     public String getCity() {
         return mCity;
     }
@@ -28,8 +25,6 @@ private Double mTemperature, mHi, mLow;
     public void setCity(String mCity) {
         this.mCity = mCity;
     }
-
-
 
     public String getDescription() {
         return mDescription;
@@ -39,26 +34,27 @@ private Double mTemperature, mHi, mLow;
         this.mDescription = mDescription;
     }
 
-
-
-    public Double getTemperature() {return mTemperature;}
+    public Double getTemperature() {
+        return mTemperature;
+    }
 
     public void setTemperature(Double mTemperature) {
         this.mTemperature = mTemperature;
     }
 
-
-
-    public Double getHi() {return mHi;}
+    public Double getHi() {
+        return mHi;
+    }
 
     public void setHi(Double mHi) {
         this.mHi = mHi;
     }
 
+    public Double getLow() {
+        return mLow;
+    }
 
-
-    public Double getLow() {return mLow;}
-
-    public void setLow(Double mTemperature) {this.mTemperature = mTemperature;}
-
+    public void setLow(Double mTemperature) {
+        this.mTemperature = mTemperature;
+    }
 }

@@ -1,9 +1,5 @@
 package com.omievee.a9to5.RecyclerView;
 
-import android.support.v7.widget.CardView;
-import android.view.View;
-import android.widget.TextView;
-
 /**
  * Created by omievee on 5/1/17.
  */

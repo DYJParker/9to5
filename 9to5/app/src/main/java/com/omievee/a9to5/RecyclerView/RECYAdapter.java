@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
 import com.omievee.a9to5.R;
-import com.omievee.a9to5.R;
-import com.omievee.a9to5.Weather.Weather;
 import com.omievee.a9to5.Weather.WeatherInfoObject;
 import com.omievee.a9to5.Weather.WeatherViewHolder;
 
@@ -22,7 +20,7 @@ import static android.content.ContentValues.TAG;
  * Created by omievee on 5/1/17.
  */
 
-public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
+public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implements InterfaceSingleton.ListUpdateListener{
     private static final int CALENDAR_TYPE = 0;
     private static final int WEATHER_TYPE = 1;
 
@@ -30,6 +28,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
 
     public RECYAdapter(List<AbstractBaseInformationObject> list) {
         mCardList = list;
+        InterfaceSingleton.getInstance().setListener(this);
     }
 
     @Override
@@ -87,14 +86,9 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> {
         return mCardList.size();
     }
 
-    public void addToList(AbstractBaseInformationObject obj) {
-        //for(AbstractBaseInformationObject listObj : mCardList){
-        //    if (obj.getClass().getCanonicalName() == listObj.getClass().getCanonicalName()){
-        //        listObj = obj;
-        //        notifyItemChanged(mCardList.indexOf(listObj));
-        //        return;
-        //    }
-        //}
+
+    @Override
+    public void updateList(AbstractBaseInformationObject obj) {
         mCardList.add(obj);
         notifyItemInserted(mCardList.size() - 1);
     }

@@ -1,5 +1,8 @@
 package com.omievee.a9to5;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.database.Cursor;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -21,30 +24,23 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
+import com.omievee.a9to5.JobScheduler.JobService;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.Cardinfo;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
-import com.omievee.a9to5.Weather.OpenWeatherService;
-import com.omievee.a9to5.Weather.Weather;
-import com.omievee.a9to5.Weather.WeatherContainer;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     //private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
-    public static String cityQuery = "New York";
 
+    public static String sCityQuery = "New York";
+
+    //JobScheduler
+    public static final int JOB_ID = 1;
 
     RecyclerView mRV;
     RECYAdapter mAdapt;
@@ -63,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         System.out.print("LOADER is being called");
-
 
         return null;
 
@@ -89,20 +84,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-
         //RecyclerView / LLM / Async Task
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float dpWidth = metrics.widthPixels/metrics.density;
+        float dpWidth = metrics.widthPixels / metrics.density;
         mCardinfo = new ArrayList<>();
         mCardinfo.add(new Cardinfo("Test", "Test", "Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
         RecyclerView.LayoutManager manager;
-        if (dpWidth < 500 ) manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        else manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        if (dpWidth < 500)
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        else manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
@@ -116,15 +110,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //
 //        }
 
-        AlertThrower.setAlert(this);
-        //WeatherCreate.getCityWeather(cityQuery, this);
+        WeatherCreate.getCityWeather(sCityQuery, this, false);
 
+        JobInfo job = new JobInfo.Builder(JOB_ID,
+                new ComponentName(this, JobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(1000 * 60 * 10)
+                .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
+                .build();
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
+
+        AlertThrower.setAlert(this,"testTitle","testContent");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).cancel(JOB_ID);
     }
 }
-
-
-
-
 
 //Extra Bullshit////////////////////////////////////////////////////////////////////////////////////
 

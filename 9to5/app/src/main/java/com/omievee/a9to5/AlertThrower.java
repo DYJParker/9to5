@@ -26,7 +26,7 @@ public class AlertThrower extends BroadcastReceiver {
         //this does not work maybe?
         if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
             timeListener(context);
-        } else setAlert(context);
+        } else WeatherCreate.getCityWeather(MainActivity.sCityQuery,context,true);
     }
 
     private void timeListener(Context ctx){
@@ -53,8 +53,8 @@ public class AlertThrower extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx)
                 .setSmallIcon(R.drawable.ic_cloud_black_24px)// find better cloud
-                .setContentTitle(arr.get(0))
-                .setContentText(arr.get(1))
+                .setContentTitle(title)
+                .setContentText(content)
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setContentIntent(PendingIntent.getActivity(ctx,
