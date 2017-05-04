@@ -66,15 +66,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
 
-        JobInfo job = new JobInfo.Builder(JOB_ID,
-                new ComponentName(this, JobService.class))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPeriodic(1000 * 60 * 10)
-                .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
-                .build();
-        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
-
-        AlertThrower.setAlert(this, "testTitle", "testContent");
+        //JobInfo job = new JobInfo.Builder(JOB_ID,
+        //        new ComponentName(this, JobService.class))
+        //        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+        //        .setPeriodic(1000 * 60 * 10)
+        //        .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
+        //        .build();
+        //((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
         MTA_GetStatus.getMTAStatus(this);
     }
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        
+
     }
 
     @Override

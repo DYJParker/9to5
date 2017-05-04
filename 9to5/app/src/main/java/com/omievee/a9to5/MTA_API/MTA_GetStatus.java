@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.omievee.a9to5.MainActivity;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
+import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class MTA_GetStatus  extends AbstractBaseInformationObject{
                                 pojo.getSubway().get(8).getStatus(),
                                 pojo.getSubway().get(9).getStatus()
                         );
-                        ((MainActivity)context).mAdapt.addToList(dataObject);
+                        InterfaceSingleton.getInstance().updateList(dataObject);
 
                     }
                 }

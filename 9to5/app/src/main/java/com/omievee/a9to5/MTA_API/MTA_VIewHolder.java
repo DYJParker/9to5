@@ -22,10 +22,8 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
     public MTA_VIewHolder(View itemView) {
         super(itemView);
 
-        View content = LayoutInflater.from(itemView.getContext()).inflate(R.layout.mta_layout, null);
+        View content = LayoutInflater.from(itemView.getContext()).inflate(R.layout.mta_layout_alt, null);
 
-
-        mCollapse = (TextView) itemView.findViewById(R.id.collapse1);
         mS123 = (TextView) content.findViewById(R.id.status123);
         mS456 = (TextView) content.findViewById(R.id.status456);
         mSACE = (TextView) content.findViewById(R.id.statusACE);

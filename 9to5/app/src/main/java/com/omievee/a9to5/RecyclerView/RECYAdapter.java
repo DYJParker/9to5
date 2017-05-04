@@ -39,11 +39,10 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
     public int getItemViewType(int position) {
         if (mCardList.get(position) instanceof MTA_object) return MTA_TYPE;
 
-        else if (mCardList.get(position) instanceof WeatherInfoObject)
-            return WEATHER_TYPE;
+        else if (mCardList.get(position) instanceof WeatherInfoObject) return WEATHER_TYPE;
 
         else if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
-            //elseif
+
         else throw new RuntimeException("Invalid data!");
     }
 
@@ -88,17 +87,17 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         return mCardList.size();
     }
 
-    public void addToList(AbstractBaseInformationObject obj) {
-        //for(AbstractBaseInformationObject listObj : mCardList){
-        //    if (obj.getClass().getCanonicalName() == listObj.getClass().getCanonicalName()){
-        //        listObj = obj;
-        //        notifyItemChanged(mCardList.indexOf(listObj));
-        //        return;
-        //    }
-        //}
-        mCardList.add(obj);
-        notifyItemInserted(mCardList.size() - 1);
-    }
+    //public void addToList(AbstractBaseInformationObject obj) {
+    //    //for(AbstractBaseInformationObject listObj : mCardList){
+    //    //    if (obj.getClass().getCanonicalName() == listObj.getClass().getCanonicalName()){
+    //    //        listObj = obj;
+    //    //        notifyItemChanged(mCardList.indexOf(listObj));
+    //    //        return;
+    //    //    }
+    //    //}
+    //    mCardList.add(obj);
+    //    notifyItemInserted(mCardList.size() - 1);
+    //}
 
     @Override
     public void updateList(AbstractBaseInformationObject obj) {
