@@ -9,6 +9,7 @@ import com.omievee.a9to5.R;
 import com.omievee.a9to5.RecyclerView.AbstractBaseHolder;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
+import static android.view.View.GONE;
 import static com.omievee.a9to5.R.id.mL;
 import static com.omievee.a9to5.R.id.visible;
 
@@ -17,7 +18,7 @@ import static com.omievee.a9to5.R.id.visible;
  */
 
 public class MTA_VIewHolder extends AbstractBaseHolder{
-   public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG, mCollapse;
+   public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG;
 
     public MTA_VIewHolder(View itemView) {
         super(itemView);
@@ -44,17 +45,27 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
 
     @Override
     public void bindDataToViews(AbstractBaseInformationObject data) {
-        MTA_object localdata = (MTA_object) data;
-        mS123.setText(localdata.getM123());
-        mS456.setText(localdata.getM456());
-        mSACE.setText(localdata.getmACE());
-        mSBDFM.setText(localdata.getmBDFM());
-        mSNQRW.setText(localdata.getmNQR());
-        mSG.setText(localdata.getmG());
-        mSShuttle.setText(localdata.getmShuttle());
-        mS7.setText(localdata.getM7());
-        mSL.setText(localdata.getmL());
-        mSJZ.setText(localdata.getmJZ());
+
+       MTA_object localdata = (MTA_object) data;
+        if (!localdata.getFailed()) {
+            mS123.setText(localdata.getM123());
+            mS456.setText(localdata.getM456());
+            mSACE.setText(localdata.getmACE());
+            mSBDFM.setText(localdata.getmBDFM());
+            mSNQRW.setText(localdata.getmNQR());
+            mSG.setText(localdata.getmG());
+            mSShuttle.setText(localdata.getmShuttle());
+            mS7.setText(localdata.getM7());
+            mSL.setText(localdata.getmL());
+            mSJZ.setText(localdata.getmJZ());
+        }else {
+            TextView failure = new TextView(mS123.getContext());
+            failure.setText("We done fucked up.");
+
+            ((CardView)mS123.getParent().getParent()).addView(failure);
+            ((View)mS123.getParent()).setVisibility(GONE);
+
+        }
 
 
 

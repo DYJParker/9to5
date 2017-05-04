@@ -19,6 +19,7 @@ public class MTA_object extends AbstractBaseInformationObject {
     private String mG;
     private String mJZ;
     private String mShuttle;
+    private boolean mFailed;
 
 
     public String getM123() {
@@ -76,7 +77,13 @@ public class MTA_object extends AbstractBaseInformationObject {
         this.mShuttle = mShuttle;
     }
 
+    public MTA_object(boolean failed) {
+        mFailed = failed;
+    }
 
+    public boolean getFailed() {
+        return mFailed;
+    }
 
 
 }
