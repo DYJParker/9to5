@@ -36,7 +36,7 @@ public class MTA_GetStatus  extends AbstractBaseInformationObject{
     TextView m123;
 
     public static final String URL = "http://web.mta.info/status/";
-    private static final String TAG = "TAG :";
+    private static final String TAG = "MTA_GetStatus";
 
     public static void getMTAStatus(final Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

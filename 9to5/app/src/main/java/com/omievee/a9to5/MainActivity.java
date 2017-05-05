@@ -25,7 +25,7 @@ import com.omievee.a9to5.Weather.WeatherCreate;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
 
@@ -56,46 +56,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (dpWidth < 500)
             manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         else
-            manager = new StaggeredGridLayoutManager((int) dpWidth / 250, StaggeredGridLayoutManager.VERTICAL);
+            manager = new StaggeredGridLayoutManager(/*(int) (dpWidth / 250)*/2, StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
-        mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
+        mAdapt = (RECYAdapter) InterfaceSingleton.getInstance().getListener();
+        if(mAdapt == null) {
+            mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
+            MTA_GetStatus.getMTAStatus(this);
+            WeatherCreate.getCityWeather(sCityQuery, this, false);
+        }
         mRV.setAdapter(mAdapt);
 
-        WeatherCreate.getCityWeather(sCityQuery, this, false);
+        CalendarCallbacks callbacks = new CalendarCallbacks(this);
+        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, callbacks);
 
-        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
 
-        //JobInfo job = new JobInfo.Builder(JOB_ID,
-        //        new ComponentName(this, JobService.class))
-        //        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-        //        .setPeriodic(1000 * 60 * 10)
-        //        .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
-        //        .build();
-        //((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
-        MTA_GetStatus.getMTAStatus(this);
-    }
+        AlertThrower.timeListener(this.getApplicationContext(), null);
 
-    @Override
-    public Loader onCreateLoader(int id, Bundle args) {
-        switch (id) {
-            case CALENDAR_LOADER:
-                return CalendarCallbacks.onCreateCalendarLoader(this);
-            default:
-                return null;
-        }
-    }
+        JobInfo job = new JobInfo.Builder(JOB_ID,
+                new ComponentName(this, JobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(1000 * 60 * 10)
+                .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
+                .build();
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
-            InterfaceSingleton.getInstance().updateList(CalendarCallbacks.onCalendarLoadFinished(data));
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 

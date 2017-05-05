@@ -27,4 +27,8 @@ public class InterfaceSingleton {
     public void setListener(ListUpdateListener listener) {
         mListener = listener;
     }
+
+    public ListUpdateListener getListener() {
+        return mListener;
+    }
 }

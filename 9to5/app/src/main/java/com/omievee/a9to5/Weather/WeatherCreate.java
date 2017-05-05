@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WeatherCreate {
 
-    public static final String TAG = "TEST TEST TEST ";
+    private static final String TAG = "WeatherCreate";
 
     public static final String BASE_URL = "http://api.openweathermap.org/";
     public static final String ID = "bfb4d3e098fa94eb0ea53de3c479236e";
@@ -69,7 +69,7 @@ public class WeatherCreate {
                         } else {
                             String title = "Current Temp: " + String.format("%.1f\u2109", weather.getMain().getTemp());
                             String content = "Hi: " + String.format("%.1f\u2109", weather.getMain().getTempMax())
-                                    + ", Low: " + String.format("%.1f\u2109", weather.getMain().getTempMax())
+                                    + ", Low: " + String.format("%.1f\u2109", weather.getMain().getTempMin())
                                     + ", Current Conditions: " + weather.getWeather().get(0).getDescription();
                             AlertThrower.setAlert(context, title, content);
                         }

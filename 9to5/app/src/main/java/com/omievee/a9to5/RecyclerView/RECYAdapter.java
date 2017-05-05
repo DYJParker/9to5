@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 
 import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
@@ -27,6 +28,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
     private static final int CALENDAR_TYPE = 0;
     private static final int WEATHER_TYPE = 1;
     private static final int MTA_TYPE = 2;
+    private static final String TAG = "RECYAdapter";
 
     private List<AbstractBaseInformationObject> mCardList;
 
@@ -45,6 +47,22 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
 
         else throw new RuntimeException("Invalid data!");
     }
+
+    //@Override
+    //public void onViewAttachedToWindow(AbstractBaseHolder holder) {
+    //    super.onViewAttachedToWindow(holder);
+    //    if (holder instanceof MTA_VIewHolder){
+    //        GridLayout top = (GridLayout) ((MTA_VIewHolder)holder).mS123.getParent();
+    //        float density = top.getContext().getResources().getDisplayMetrics().density;
+    //        top.measure(
+    //                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+    //                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+    //        );
+    //        if (top.getMeasuredWidth() < (300 * density)) top.setColumnCount(2);
+    //        Log.d(TAG, "onViewAttachedToWindow: " + top.getMeasuredWidth());
+    //        Log.d(TAG, "onViewAttachedToWindow: " + top.getColumnCount());
+    //    }
+    //}
 
     @Override
     public AbstractBaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -101,7 +119,30 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
 
     @Override
     public void updateList(AbstractBaseInformationObject obj) {
-        mCardList.add(obj);
-        notifyItemInserted(mCardList.size() - 1);
+        int size = mCardList.size();
+        for (int i = 0; i < size; i++) {
+            if(mCardList.get(i).getClass().getCanonicalName().equals(obj.getClass().getCanonicalName())){
+                mCardList.set(i,obj);
+                notifyItemChanged(i);
+                return;
+            }
+        }
+        //for(AbstractBaseInformationObject listObj : mCardList){
+        //    if (obj.getClass().getCanonicalName().equals(listObj.getClass().getCanonicalName())) {
+        //        int position = mCardList.indexOf(listObj)
+        //        listObj. = obj;
+        //        notifyItemChanged(position);
+        //        //notifyDataSetChanged();
+        //        return;
+        //    }
+        //}
+        if(obj instanceof MTA_object){
+            int loc = mCardList.size()%2;
+            mCardList.add(loc,obj);
+            notifyItemInserted(loc);
+        } else {
+            mCardList.add(obj);
+            notifyItemInserted(mCardList.size() - 1);
+        }
     }
 }

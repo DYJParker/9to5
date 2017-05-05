@@ -1,54 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_marginLeft="50dp"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="50dp"
+                  android:layout_weight="1"
+                  android:orientation="vertical">
 
         <TextView
             android:id="@+id/city_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-        />
-    <TextView
-        android:id="@+id/temperature_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_below="@id/city_textview"
-        />
-        </LinearLayout>
+            />
+
+        <TextView
+            android:id="@+id/temperature_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city_textview"
+            android:textSize="30dp"
+            />
+    </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/description_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <TextView
+            android:id="@+id/description_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
-    <TextView
-        android:id="@+id/hi_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <TextView
+            android:id="@+id/hi_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
-    <TextView
-        android:id="@+id/low_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/low_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-        />
+            />
 
-</LinearLayout>
     </LinearLayout>
+</LinearLayout>

@@ -3,6 +3,9 @@ package com.omievee.a9to5.MTA_API;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.omievee.a9to5.R;
@@ -16,8 +19,8 @@ import static com.omievee.a9to5.R.id.visible;
  * Created by omievee on 5/2/17.
  */
 
-public class MTA_VIewHolder extends AbstractBaseHolder{
-   public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG, mCollapse;
+public class MTA_VIewHolder extends AbstractBaseHolder {
+    public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG, mCollapse;
 
     public MTA_VIewHolder(View itemView) {
         super(itemView);
@@ -35,12 +38,43 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
         mSL = (TextView) content.findViewById(R.id.statusL);
         mSG = (TextView) content.findViewById(R.id.statusG);
 
-
-
         ((CardView) itemView).addView(content, 0);
 
+        itemView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if((oldRight-oldLeft) - (right-left)!=0) {
+                    //GridLayout top = (GridLayout) ((MTA_VIewHolder)holder).mS123.getParent();
+                    float density = v.getContext().getResources().getDisplayMetrics().density;
+                    GridLayout grid = (GridLayout) ((ViewGroup) v).getChildAt(0);
+                    boolean gridDuplex = ((right - left) < (300 * density));
+                    int count = grid.getChildCount();
+                    for (int i = 0; i < count; i++) {
+                        TextView child = (TextView) grid.getChildAt(i);
+                        if(gridDuplex) child.setTextScaleX(1);
+                        else child.setTextScaleX(.8f);
+                        GridLayout.LayoutParams lp = (GridLayout.LayoutParams) child.getLayoutParams();
+                        if(i%2==1) {
+                            lp.columnSpec = GridLayout.spec(GridLayout.UNDEFINED,1f);
+                        } else lp.columnSpec = (gridDuplex)
+                                ?GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                                :GridLayout.spec(GridLayout.UNDEFINED, 0.01f);
+                        child.setLayoutParams(lp);
+                    }
+                    if (gridDuplex) grid.setColumnCount(2);
+                    else grid.setColumnCount(4);
 
+                    //GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+                    //layoutParams.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, item.getRowSpan());
+                    //layoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, item.getColumnSpan());
+                }
+            }
+        });
     }
+
+/*    public void resetter(){
+
+    }*/
 
     @Override
     public void bindDataToViews(AbstractBaseInformationObject data) {
@@ -55,8 +89,6 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
         mS7.setText(localdata.getM7());
         mSL.setText(localdata.getmL());
         mSJZ.setText(localdata.getmJZ());
-
-
 
     }
 }

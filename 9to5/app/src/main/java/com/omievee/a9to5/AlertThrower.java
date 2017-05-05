@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.omievee.a9to5.Weather.WeatherCreate;
 
@@ -20,23 +22,28 @@ import java.util.Calendar;
 
 public class AlertThrower extends BroadcastReceiver {
     public static final int REQUEST = 42;
+    private static final String TAG = "AlertThrower";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         //this does not work maybe?
-        if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
-            timeListener(context);
+        if(intent.getAction() != null &&
+                intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
+            timeListener(context, null);
+            Log.d(TAG, "onReceive: set timeListener");
         } else WeatherCreate.getCityWeather(MainActivity.sCityQuery,context,true);
     }
 
-    private void timeListener(Context ctx){
-        //this does not work maybe?
+    public static void timeListener(Context ctx, @Nullable Calendar cal){
         AlarmManager manager;
         PendingIntent intent;
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY,6);
+        if (cal == null) {
+            cal = Calendar.getInstance();
+            cal.setTimeInMillis(System.currentTimeMillis());
+            cal.set(Calendar.HOUR_OF_DAY, 6);
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+        }
 
         manager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         Intent inte = new Intent(ctx,AlertThrower.class);
@@ -44,12 +51,10 @@ public class AlertThrower extends BroadcastReceiver {
 
         manager.setInexactRepeating(AlarmManager.RTC,cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY,intent);
+        Log.d(TAG, "timeListener: set");
     }
 
     public static void setAlert(Context ctx, String title, String content){
-        //this works
-        //not called by weather methods
-        //needs static variables
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx)
                 .setSmallIcon(R.drawable.ic_cloud_black_24px)// find better cloud
