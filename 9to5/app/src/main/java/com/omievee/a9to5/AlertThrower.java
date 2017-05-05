@@ -31,7 +31,7 @@ public class AlertThrower extends BroadcastReceiver {
                 intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
             timeListener(context, null);
             Log.d(TAG, "onReceive: set timeListener");
-        } else WeatherCreate.getCityWeather(MainActivity.sCityQuery,context,true);
+        } else WeatherCreate.getCityWeather(MainActivity.sCityQuery,context,true, null);
     }
 
     public static void timeListener(Context ctx, @Nullable Calendar cal){

@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 //create new card
             } else {
                 //things that need internet access here
-                WeatherCreate.getCityWeather(sCityQuery, this, false);
+                WeatherCreate.getCityWeather(sCityQuery, this, false, null);
                 MTA_GetStatus.getMTAStatus(this);
                 News_Fetcher.volleyNEWS(this);
             }
