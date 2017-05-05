@@ -53,7 +53,7 @@ public class CalendarCallbacks implements LoaderManager.LoaderCallbacks<Cursor> 
         CalendarEvents events = new CalendarEvents();
         if (data != null && data.moveToFirst()) {
             for (int i = 0; i < CAL_ENTRIES; ) {
-                if (data.getColumnIndex(VISIBLE) != 0) {
+                if (data.getInt(data.getColumnIndex(VISIBLE)) != 0) {
                     boolean allDay = data.getInt(data.getColumnIndex(ALL_DAY)) > 0;
                     Calendar cal = GregorianCalendar.getInstance();
                     long start, end;

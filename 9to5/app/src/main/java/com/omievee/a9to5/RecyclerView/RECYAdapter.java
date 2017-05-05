@@ -127,7 +127,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         //        return;
         //    }
         //}
-        if(obj instanceof MTA_object){
+        if(obj instanceof NEWS_OBJECT){
             int loc = mCardList.size()%2;
             mCardList.add(loc,obj);
             notifyItemInserted(loc);

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.omievee.a9to5.R;
@@ -92,6 +93,15 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
         }else {
             TextView failure = new TextView(mS123.getContext());
             failure.setText("MTA cannot be reached ");
+            int padding = itemView.getResources().getDimensionPixelOffset(R.dimen.typ_margin);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            lp.setMargins(padding,padding,padding,padding);
+            failure.setLayoutParams(lp);
+            failure.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
 
             ((CardView)mS123.getParent().getParent()).addView(failure);
             ((View)mS123.getParent()).setVisibility(GONE);

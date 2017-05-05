@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
-
+        volleyNEWS();
     }
 
     @Override
