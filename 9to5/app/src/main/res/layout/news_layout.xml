@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:columnOrderPreserved="true"
+    android:orientation="vertical"
+    android:rowOrderPreserved="true"
+    android:useDefaultMargins="true"
+    android:layout_margin="8dp">
+
+
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:background="#1F000000"
+       android:id="@+id/divider"/>
+    <ImageView
+        android:id="@+id/ImageSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="TEST" />
+
+    <TextView
+        android:id="@+id/TITLE"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ImageSource"
+        tools:text="TEST"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/Descrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TITLE"
+        android:layout_toRightOf="@id/ImageSource"
+        tools:text="TEST" />
+
+
+</RelativeLayout>

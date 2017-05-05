@@ -23,9 +23,9 @@ public class RECYViewHolder extends AbstractBaseHolder {
         super(itemView);
 
         mRootview = itemView;
-        mText1 = (TextView) itemView.findViewById(R.id.testtext1);
-        mText2 = (TextView) itemView.findViewById(R.id.testtext2);
-        mText3 = (TextView) itemView.findViewById(R.id.testtext3);
+//        mText1 = (TextView) itemView.findViewById(R.id.testtext1);
+//        mText2 = (TextView) itemView.findViewById(R.id.testtext2);
+//        mText3 = (TextView) itemView.findViewById(R.id.testtext3);
         mCardView = (CardView) itemView.findViewById(R.id.CardView);
     }
 

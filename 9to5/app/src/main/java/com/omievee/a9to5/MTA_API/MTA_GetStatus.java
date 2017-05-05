@@ -3,6 +3,7 @@ package com.omievee.a9to5.MTA_API;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
@@ -33,16 +34,12 @@ import retrofit2.http.Url;
  */
 
 public class MTA_GetStatus  extends AbstractBaseInformationObject{
-    TextView m123;
 
     public static final String URL = "http://web.mta.info/status/";
     private static final String TAG = "MTA_GetStatus";
 
     public static void getMTAStatus(final Context context) {
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if (networkInfo != null && networkInfo.isConnected()) {
             Retrofit builder = new Retrofit.Builder()
                     .baseUrl(URL)
                     .client(new OkHttpClient())
@@ -79,20 +76,12 @@ public class MTA_GetStatus  extends AbstractBaseInformationObject{
 
                 @Override
                 public void onFailure(retrofit2.Call<Service> call, Throwable t) {
+                    InterfaceSingleton.getInstance().updateList(new MTA_object(true));
 
-                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Connection Failed", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();
                 }
             });
-
-
-
-
-
-
-
-
-        }
 
     }
 

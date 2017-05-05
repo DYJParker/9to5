@@ -1,5 +1,6 @@
 package com.omievee.a9to5.MTA_API;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.omievee.a9to5.R;
 import com.omievee.a9to5.RecyclerView.AbstractBaseHolder;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
+import static android.view.View.GONE;
 import static com.omievee.a9to5.R.id.mL;
 import static com.omievee.a9to5.R.id.visible;
 
@@ -19,8 +21,8 @@ import static com.omievee.a9to5.R.id.visible;
  * Created by omievee on 5/2/17.
  */
 
-public class MTA_VIewHolder extends AbstractBaseHolder {
-    public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG, mCollapse;
+public class MTA_VIewHolder extends AbstractBaseHolder{
+   public TextView mS123, mS456, mS7, mSShuttle, mSL, mSACE, mSNQRW, mSBDFM, mSJZ, mSG;
 
     public MTA_VIewHolder(View itemView) {
         super(itemView);
@@ -72,23 +74,29 @@ public class MTA_VIewHolder extends AbstractBaseHolder {
         });
     }
 
-/*    public void resetter(){
-
-    }*/
-
     @Override
     public void bindDataToViews(AbstractBaseInformationObject data) {
-        MTA_object localdata = (MTA_object) data;
-        mS123.setText(localdata.getM123());
-        mS456.setText(localdata.getM456());
-        mSACE.setText(localdata.getmACE());
-        mSBDFM.setText(localdata.getmBDFM());
-        mSNQRW.setText(localdata.getmNQR());
-        mSG.setText(localdata.getmG());
-        mSShuttle.setText(localdata.getmShuttle());
-        mS7.setText(localdata.getM7());
-        mSL.setText(localdata.getmL());
-        mSJZ.setText(localdata.getmJZ());
+
+       MTA_object localdata = (MTA_object) data;
+        if (!localdata.getFailed()) {
+            mS123.setText(localdata.getM123());
+            mS456.setText(localdata.getM456());
+            mSACE.setText(localdata.getmACE());
+            mSBDFM.setText(localdata.getmBDFM());
+            mSNQRW.setText(localdata.getmNQR());
+            mSG.setText(localdata.getmG());
+            mSShuttle.setText(localdata.getmShuttle());
+            mS7.setText(localdata.getM7());
+            mSL.setText(localdata.getmL());
+            mSJZ.setText(localdata.getmJZ());
+        }else {
+            TextView failure = new TextView(mS123.getContext());
+            failure.setText("MTA cannot be reached ");
+
+            ((CardView)mS123.getParent().getParent()).addView(failure);
+            ((View)mS123.getParent()).setVisibility(GONE);
+
+        }
 
     }
 }
