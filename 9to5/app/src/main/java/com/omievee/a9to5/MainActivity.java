@@ -24,6 +24,8 @@ import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 import com.omievee.a9to5.RecyclerView.NetworkFailureObject;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.WeatherCreate;
+import com.omievee.a9to5.Weather.WeatherInfoObject;
+import com.omievee.a9to5.Weather.WeatherViewHolder;
 
 import java.util.ArrayList;
 
@@ -36,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
     //JobScheduler
     public static final int JOB_ID = 1;
 
-    //news
-
-
     RecyclerView mRV;
     public RECYAdapter mAdapt;
 
@@ -49,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
+        //RecyclerView / LLM / Async Task
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float dpWidth = metrics.widthPixels / metrics.density;
 

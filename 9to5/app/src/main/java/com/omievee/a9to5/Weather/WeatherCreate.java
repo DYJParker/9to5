@@ -25,7 +25,7 @@ public class WeatherCreate {
 
     //working on this for the alerts
 
-    public static void getCityWeather(String cityQuery, final Context context, final boolean alert) {
+    public static void getCityWeather(final String cityQuery, final Context context, final boolean alert) {
 
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -50,30 +50,32 @@ public class WeatherCreate {
                         Log.d(TAG, "onResponse: " + weather);
                         //Toast.makeText(MainActivity.context, "City Unknown, Please try again", Toast.LENGTH_SHORT).show();
                     } else {
-                        if (alert == false) {
+                        //TODO create object and add it to recyclerview
+                        if(weather.getName().toLowerCase().contains(cityQuery.toLowerCase())){
+                            if (alert == false) {
 
-                            WeatherInfoObject mTemp = new WeatherInfoObject(
-                                    weather.getName(), weather.getWeather().get(0).getDescription(),
-                                    weather.getMain().getTemp(),
-                                    weather.getMain().getTempMax(),
-                                    weather.getMain().getTempMin());
+                                WeatherInfoObject mTemp = new WeatherInfoObject(
+                                        weather.getName(), weather.getWeather().get(0).getDescription(),
+                                        weather.getMain().getTemp(),
+                                        weather.getMain().getTempMax(),
+                                        weather.getMain().getTempMin());
 
-                          //WeatherInfoObject mTemp = new WeatherInfoObject(false);
+                                InterfaceSingleton.getInstance().updateList(mTemp);
 
-
-                            InterfaceSingleton.getInstance().updateList(mTemp);
-
-                            Log.d(TAG, "city: " + weather.getName());
-                            Log.d(TAG, "description: " + weather.getWeather().get(0).getDescription());
-                            Log.d(TAG, "temp: " + weather.getMain().getTemp());
-                            Log.d(TAG, "temp: " + weather.getMain().getTempMax());
-                            Log.d(TAG, "temp: " + weather.getMain().getTempMin());
+                                Log.d(TAG, "city: " + weather.getName());
+                                Log.d(TAG, "description: " + weather.getWeather().get(0).getDescription());
+                                Log.d(TAG, "temp: " + weather.getMain().getTemp());
+                                Log.d(TAG, "temp: " + weather.getMain().getTempMax());
+                                Log.d(TAG, "temp: " + weather.getMain().getTempMin());
+                            } else {
+                                String title = "Current Temp: " + String.format("%.1f\u2109", weather.getMain().getTemp());
+                                String content = "Hi: " + String.format("%.1f\u2109", weather.getMain().getTempMax())
+                                        + ", Low: " + String.format("%.1f\u2109", weather.getMain().getTempMax())
+                                        + ", Current Conditions: " + weather.getWeather().get(0).getDescription();
+                                AlertThrower.setAlert(context, title, content);
+                            }
                         } else {
-                            String title = "Current Temp: " + String.format("%.1f\u2109", weather.getMain().getTemp());
-                            String content = "Hi: " + String.format("%.1f\u2109", weather.getMain().getTempMax())
-                                    + ", Low: " + String.format("%.1f\u2109", weather.getMain().getTempMin())
-                                    + ", Current Conditions: " + weather.getWeather().get(0).getDescription();
-                            AlertThrower.setAlert(context, title, content);
+
                         }
                     }
                 }
@@ -86,6 +88,7 @@ public class WeatherCreate {
                 }
             });
         } else {
+            WeatherInfoObject mTemp = new WeatherInfoObject(false);
             //Toast.makeText(context, "No network connection", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "getCityWeather: No network connection");
         }
