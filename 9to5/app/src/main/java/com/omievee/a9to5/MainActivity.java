@@ -1,28 +1,43 @@
 package com.omievee.a9to5;
 
-import android.os.AsyncTask;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
-import com.omievee.a9to5.RecyclerView.Cardinfo;
+import com.omievee.a9to5.Calendar.CalendarCallbacks;
+import com.omievee.a9to5.JobScheduler.JobService;
+import com.omievee.a9to5.MTA_API.MTA_GetStatus;
+import com.omievee.a9to5.News.News_Fetcher;
+import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
+import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
+import com.omievee.a9to5.RecyclerView.NetworkFailureObject;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
+import com.omievee.a9to5.Weather.WeatherCreate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+    private static final int CALENDAR_LOADER = 0;
+
+    public static String sCityQuery = "New York";
+
+    //JobScheduler
+    public static final int JOB_ID = 1;
 
     RecyclerView mRV;
-    RECYAdapter mAdapt;
-    List<Cardinfo> mCardinfo;
+    public RECYAdapter mAdapt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,61 +46,66 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+    //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    //        setSupportActionBar(toolbar);
 
+        //RecyclerView / LLM
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float dpWidth = metrics.widthPixels / metrics.density;
 
-        //RecyclerView / LLM / Async Task
-        mCardinfo = new ArrayList<>();
-        mCardinfo.add(new Cardinfo("Test","Test","Test"));
         mRV = (RecyclerView) findViewById(R.id.RECY);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager manager;
+        if (dpWidth < 500)
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        else
+            manager = new StaggeredGridLayoutManager(/*(int) (dpWidth / 250)*/2, StaggeredGridLayoutManager.VERTICAL);
         mRV.setLayoutManager(manager);
 
-
-        mAdapt = new RECYAdapter(mCardinfo);
+        mAdapt = (RECYAdapter) InterfaceSingleton.getInstance().getListener();
+        if (mAdapt == null) {
+            mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
+        }
         mRV.setAdapter(mAdapt);
-//        mTask.execute();
 
+        CalendarCallbacks callbacks = new CalendarCallbacks(this);
+        getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, callbacks);
 
+        AlertThrower.timeListener(this.getApplicationContext(), null);
+
+        JobInfo job = new JobInfo.Builder(JOB_ID,
+                new ComponentName(this, JobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(1000 * 60 * 10)
+                .setBackoffCriteria(1000 * 60 * 10, JobInfo.BACKOFF_POLICY_LINEAR)
+                .build();
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onStart() {
+        super.onStart();
+        if (((RECYAdapter) InterfaceSingleton.getInstance().getListener()).getItemCount() == 0) {
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo == null || !networkInfo.isConnected()) {
+                //Toast.makeText(MainActivity.this, "No network connection", Toast.LENGTH_SHORT).show();
+                NetworkFailureObject temp = new NetworkFailureObject();
+                InterfaceSingleton.getInstance().updateList(temp);
+                //create new card
+            } else {
+                //things that need internet access here
+                WeatherCreate.getCityWeather(sCityQuery, this, false, null);
+                MTA_GetStatus.getMTAStatus(this);
+                News_Fetcher.volleyNEWS(this);
+            }
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+        ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).cancel(JOB_ID);
     }
-
-
-    //AsyncTask loading Card info
-    private AsyncTask mTask = new AsyncTask() {
-        @Override
-        protected Object doInBackground(Object[] params) {
-
-            return params;
-        }
-    };
-
-
 }

@@ -1,6 +1,6 @@
 Project-3: TouchLab CardView App
 =====
-## By Dave, Justin, and Omar
+### By Dave, Justin, and Omar
 
 For our third Unit Project, we were assigned to create a scrolling feed of different kinds of informative CardViews, a la Google Now. Here's what we came up with!
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/change_city_layout">
+
+    <EditText
+        android:id="@+id/edit_find_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter City"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:maxLines="1"
+        android:inputType="text"/>
+
+</RelativeLayout>

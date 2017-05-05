@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="4"
+    android:columnOrderPreserved="true"
+    android:rowOrderPreserved="true"
+    android:useDefaultMargins="true">
+
+    <TextView
+        android:id="@+id/m123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="1 |  2  | 3"
+        android:textAlignment="textEnd"
+        android:textColor="#B71C1C"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/status123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+    <TextView
+        android:id="@+id/m456"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text="4 |  5  | 6"
+        android:textAlignment="textEnd"
+        android:textColor="#2E7D32"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/status456"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+
+    <TextView
+        android:id="@+id/mACE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnWeight=".01"
+        android:layout_row="5"
+        android:text="A |  C  | E"
+        android:textAlignment="textEnd"
+        android:textColor="#3949AB"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusACE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+    <TextView
+        android:id="@+id/mBDFM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text=" B | D | F | M"
+        android:textAlignment="textEnd"
+        android:textColor="#F57F17"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusBDFM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+    <TextView
+        android:id="@+id/mNQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text="N | Q | R | W"
+        android:textAlignment="textEnd"
+        android:textColor="#FFC400"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusNQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+    <TextView
+        android:id="@+id/mG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text="G"
+        android:textAlignment="textEnd"
+        android:textColor="#8BC34A"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+    <TextView
+        android:id="@+id/m7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text="7"
+        android:textAlignment="textEnd"
+        android:textColor="#9C27B0"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/status7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+    <TextView
+        android:id="@+id/mJZ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text="J-Z"
+        android:textAlignment="textEnd"
+        android:textColor="#8D6E63"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusJZ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+
+    <TextView
+        android:id="@+id/mShuttle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight=".01"
+        android:text="S"
+        android:textAlignment="textEnd"
+        android:textColor="#9E9E9E"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusShuttle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+
+    <TextView
+        android:id="@+id/mL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mShuttle"
+        android:layout_columnWeight=".01"
+        android:text="L"
+        android:textAlignment="textEnd"
+        android:textColor="#9E9E9E"
+        android:textScaleX=".85"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/statusL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/mShuttle"
+        android:layout_columnWeight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="test"
+        android:textScaleX=".85"/>
+
+</GridLayout>
