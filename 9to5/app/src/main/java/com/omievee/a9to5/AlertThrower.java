@@ -26,7 +26,7 @@ public class AlertThrower extends BroadcastReceiver {
         //this does not work maybe?
         if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
             timeListener(context);
-        } else WeatherCreate.getCityWeather(MainActivity.sCityQuery,context,true);
+        } else WeatherCreate.getCityWeather(MainActivity.sCityQuery,context,true, null);
     }
 
     private void timeListener(Context ctx){

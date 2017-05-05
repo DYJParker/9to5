@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             //create new card
         }else {
             //things that need internet access here
-            WeatherCreate.getCityWeather(sCityQuery, this, false);
+            WeatherCreate.getCityWeather(sCityQuery, this, false, null);
 
             MTA_GetStatus.getMTAStatus(this);
         }

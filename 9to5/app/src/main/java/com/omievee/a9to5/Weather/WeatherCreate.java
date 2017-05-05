@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.omievee.a9to5.AlertThrower;
+import com.omievee.a9to5.MainActivity;
 import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 
 import retrofit2.Call;
@@ -25,7 +27,7 @@ public class WeatherCreate {
 
     //working on this for the alerts
 
-    public static void getCityWeather(final String cityQuery, final Context context, final boolean alert) {
+    public static boolean getCityWeather(final String cityQuery, final Context context, final boolean alert, final TextView local) {
 
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -51,7 +53,8 @@ public class WeatherCreate {
                         //Toast.makeText(MainActivity.context, "City Unknown, Please try again", Toast.LENGTH_SHORT).show();
                     } else {
                         //TODO create object and add it to recyclerview
-                        if(weather.getName().contains(cityQuery)){
+                        if (weather.getName().contains(cityQuery)) {
+                            MainActivity.sCityQuery=cityQuery;
                             if (alert == false) {
 
                                 WeatherInfoObject mTemp = new WeatherInfoObject(
@@ -75,7 +78,8 @@ public class WeatherCreate {
                                 AlertThrower.setAlert(context, title, content);
                             }
                         } else {
-
+                            if (local!= null)
+                            local.callOnClick();
                         }
 
                     }
@@ -88,10 +92,14 @@ public class WeatherCreate {
                     t.printStackTrace();
                 }
             });
+            return true;
+
         } else {
             WeatherInfoObject mTemp = new WeatherInfoObject(false);
             //Toast.makeText(context, "No network connection", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "getCityWeather: No network connection");
         }
+        return false;
+
     }
 }
