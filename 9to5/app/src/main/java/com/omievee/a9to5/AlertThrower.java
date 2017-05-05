@@ -51,7 +51,6 @@ public class AlertThrower extends BroadcastReceiver {
 
         manager.setInexactRepeating(AlarmManager.RTC,cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY,intent);
-        Log.d(TAG, "timeListener: set");
     }
 
     public static void setAlert(Context ctx, String title, String content){

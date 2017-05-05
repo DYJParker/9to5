@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.omievee.a9to5.AlertThrower;
+import com.omievee.a9to5.MainActivity;
 import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 
 import retrofit2.Call;
@@ -25,7 +27,7 @@ public class WeatherCreate {
 
     //working on this for the alerts
 
-    public static void getCityWeather(final String cityQuery, final Context context, final boolean alert) {
+    public static void getCityWeather(final String cityQuery, final Context context, final boolean alert, final TextView local) {
 
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -52,6 +54,7 @@ public class WeatherCreate {
                     } else {
                         //TODO create object and add it to recyclerview
                         if(weather.getName().toLowerCase().contains(cityQuery.toLowerCase())){
+                            MainActivity.sCityQuery=cityQuery;
                             if (alert == false) {
 
                                 WeatherInfoObject mTemp = new WeatherInfoObject(
@@ -75,7 +78,8 @@ public class WeatherCreate {
                                 AlertThrower.setAlert(context, title, content);
                             }
                         } else {
-
+                            if (local!= null)
+                            local.callOnClick();
                         }
                     }
                 }

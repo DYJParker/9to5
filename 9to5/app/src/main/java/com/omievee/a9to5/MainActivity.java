@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+    //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    //        setSupportActionBar(toolbar);
 
         //RecyclerView / LLM / Async Task
         DisplayMetrics metrics = getResources().getDisplayMetrics();

@@ -31,6 +31,8 @@ public class WeatherViewHolder extends AbstractBaseHolder {
     TextView mHiText;
     TextView mLowText;
     TextView mNetworkDown;
+    String q;
+    AlertDialog dialog;
 
     public WeatherViewHolder(View itemView) {
         super(itemView);
@@ -82,14 +84,31 @@ public class WeatherViewHolder extends AbstractBaseHolder {
                     builder.setPositiveButton("submit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            String q = mEdit.getText().toString().trim();
-                            Log.d(TAG, "onClick: " + q);
-                            WeatherCreate.getCityWeather(q, v.getContext().getApplicationContext(), false);
+                        }
+                    });
+                    dialog = builder.create();
+                    dialog.show();
+
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            q = mEdit.getText().toString();
+                            Boolean wantToCloseDialog = false;
+                            //Do stuff, possibly set wantToCloseDialog to true then...
+                            if (!q.trim().isEmpty()) {
+                                WeatherCreate.getCityWeather(q, v.getContext(), false, mCityText);
+                                dialog.dismiss();
+
+                            }
+                                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                            else {
+
+                                mEdit.setError("You had a bad time!");
+                                return;
+                            }
 
                         }
                     });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
                 }
             });
         } else {

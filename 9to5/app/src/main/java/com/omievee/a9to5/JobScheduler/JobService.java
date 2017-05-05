@@ -15,7 +15,7 @@ public class JobService extends android.app.job.JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "onStartJob ran");
-        WeatherCreate.getCityWeather(MainActivity.sCityQuery, getApplicationContext(),false);
+        WeatherCreate.getCityWeather(MainActivity.sCityQuery, getApplicationContext(),false, null);
         jobFinished(params,true);
         return false;
     }
