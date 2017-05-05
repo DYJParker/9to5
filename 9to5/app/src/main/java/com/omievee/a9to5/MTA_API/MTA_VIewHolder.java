@@ -1,5 +1,6 @@
 package com.omievee.a9to5.MTA_API;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,7 @@ public class MTA_VIewHolder extends AbstractBaseHolder{
             mSJZ.setText(localdata.getmJZ());
         }else {
             TextView failure = new TextView(mS123.getContext());
-            failure.setText("We done fucked up.");
+            failure.setText("MTA cannot be reached ");
 
             ((CardView)mS123.getParent().getParent()).addView(failure);
             ((View)mS123.getParent()).setVisibility(GONE);

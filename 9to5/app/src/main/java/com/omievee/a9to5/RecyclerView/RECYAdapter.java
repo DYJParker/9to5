@@ -13,11 +13,15 @@ import com.omievee.a9to5.Calendar.CalendarViewHolder;
 import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.MTA_API.MTA_VIewHolder;
 import com.omievee.a9to5.MTA_API.MTA_object;
+import com.omievee.a9to5.NEWS.NEWS_OBJECT;
+import com.omievee.a9to5.NEWS.NEWS_VIEWHOLDER;
 import com.omievee.a9to5.R;
 import com.omievee.a9to5.Weather.WeatherInfoObject;
 import com.omievee.a9to5.Weather.WeatherViewHolder;
 
 import java.util.List;
+
+import static com.omievee.a9to5.Weather.WeatherCreate.TAG;
 
 /**
  * Created by omievee on 5/1/17.
@@ -27,7 +31,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
     private static final int CALENDAR_TYPE = 0;
     private static final int WEATHER_TYPE = 1;
     private static final int MTA_TYPE = 2;
-
+    public static final int NEWS_TYPE = 3;
     private List<AbstractBaseInformationObject> mCardList;
 
     public RECYAdapter(List<AbstractBaseInformationObject> list) {
@@ -42,6 +46,8 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         else if (mCardList.get(position) instanceof WeatherInfoObject) return WEATHER_TYPE;
 
         else if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
+
+        else if(mCardList.get(position) instanceof NEWS_OBJECT) return NEWS_TYPE;
 
         else throw new RuntimeException("Invalid data!");
     }
@@ -58,6 +64,9 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
                 return new MTA_VIewHolder(item);
             case WEATHER_TYPE:
                 return new WeatherViewHolder(item);
+            case NEWS_TYPE:
+                Log.d(TAG, "onCreateViewHolder: "+ NEWS_TYPE);
+                return new NEWS_VIEWHOLDER(item);
             default:
                 return null;
         }

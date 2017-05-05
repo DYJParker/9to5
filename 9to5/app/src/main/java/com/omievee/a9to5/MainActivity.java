@@ -14,16 +14,32 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 import com.omievee.a9to5.Calendar.CalendarCallbacks;
 import com.omievee.a9to5.JobScheduler.JobService;
 import com.omievee.a9to5.MTA_API.MTA_GetStatus;
+import com.omievee.a9to5.NEWS.NEWS_OBJECT;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivity";
@@ -33,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //JobScheduler
     public static final int JOB_ID = 1;
+
+    //news
+    public static final String URL_V = "https://newsapi.org/v1/articles?source=al-jazeera-english&sortBy=top&apiKey=f12a4585dde14bd39a8e0405c0925671";
+
+
 
     RecyclerView mRV;
     public RECYAdapter mAdapt;
@@ -75,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
         MTA_GetStatus.getMTAStatus(this);
+        volleyNEWS();
     }
 
     @Override
@@ -105,4 +127,48 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.d(TAG, "onStop: ");
         ((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).cancel(JOB_ID);
     }
+
+    public void volleyNEWS() {
+
+        RequestQueue request = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET, URL_V
+                , null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            NEWS_OBJECT news = new NEWS_OBJECT();
+
+                            JSONObject root = response;
+                            JSONArray articles = root.getJSONArray("articles");
+                            for (int i = 0; i < articles.length(); i++) {
+                                JSONObject article = articles.getJSONObject(i);
+                                news.addArticles(
+                                        article.getString("title"),
+                                        article.getString("description"),
+                                     article.getString("urlToImage")
+
+                                );
+                                Log.d(TAG, "onResponse: " + article);
+
+                            }
+                            InterfaceSingleton.getInstance().updateList(news);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        request.add(jsonArrayRequest);
+
+    }
+
+
 }
