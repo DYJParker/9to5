@@ -1,20 +1,16 @@
 package com.omievee.a9to5.RecyclerView;
 
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.omievee.a9to5.Calendar.CalendarEvents;
 import com.omievee.a9to5.Calendar.CalendarViewHolder;
-import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.MTA_API.MTA_VIewHolder;
 import com.omievee.a9to5.MTA_API.MTA_object;
-import com.omievee.a9to5.NEWS.NEWS_OBJECT;
-import com.omievee.a9to5.NEWS.NEWS_VIEWHOLDER;
+import com.omievee.a9to5.News.News_Object;
+import com.omievee.a9to5.News.News_ViewHolder;
 import com.omievee.a9to5.R;
 import com.omievee.a9to5.Weather.WeatherInfoObject;
 import com.omievee.a9to5.Weather.WeatherViewHolder;
@@ -29,9 +25,12 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
     private static final int CALENDAR_TYPE = 0;
     private static final int WEATHER_TYPE = 1;
     private static final int MTA_TYPE = 2;
+    private static final int NETWORK_FAILURE = 3;
+    public static final int NEWS_TYPE = 4;
+
     private static final String TAG = "RECYAdapter";
 
-    public static final int NEWS_TYPE = 3;
+
     private List<AbstractBaseInformationObject> mCardList;
 
     public RECYAdapter(List<AbstractBaseInformationObject> list) {
@@ -41,13 +40,16 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
 
     @Override
     public int getItemViewType(int position) {
-        if (mCardList.get(position) instanceof MTA_object) return MTA_TYPE;
+
+        if(mCardList.get(position) instanceof NetworkFailureObject) return NETWORK_FAILURE;
+
+        else if (mCardList.get(position) instanceof MTA_object) return MTA_TYPE;
 
         else if (mCardList.get(position) instanceof WeatherInfoObject) return WEATHER_TYPE;
 
         else if (mCardList.get(position) instanceof CalendarEvents) return CALENDAR_TYPE;
 
-        else if(mCardList.get(position) instanceof NEWS_OBJECT) return NEWS_TYPE;
+        else if(mCardList.get(position) instanceof News_Object) return NEWS_TYPE;
 
         else throw new RuntimeException("Invalid data!");
     }
@@ -58,6 +60,8 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         CardView item = (CardView) inflater.inflate(R.layout.base_item_cardview, parent, false);
 
         switch (viewType) {
+            case NETWORK_FAILURE:
+                return new NetworkFailureImageHolder(item);
             case CALENDAR_TYPE:
                 return new CalendarViewHolder(item);
             case MTA_TYPE:
@@ -65,8 +69,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
             case WEATHER_TYPE:
                 return new WeatherViewHolder(item);
             case NEWS_TYPE:
-                Log.d(TAG, "onCreateViewHolder: "+ NEWS_TYPE);
-                return new NEWS_VIEWHOLDER(item);
+                return new News_ViewHolder(item);
             default:
                 return null;
         }
@@ -127,7 +130,7 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         //        return;
         //    }
         //}
-        if(obj instanceof NEWS_OBJECT){
+        if(obj instanceof News_Object || obj instanceof MTA_object){
             int loc = mCardList.size()%2;
             mCardList.add(loc,obj);
             notifyItemInserted(loc);

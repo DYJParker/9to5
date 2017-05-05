@@ -1,15 +1,12 @@
-package com.omievee.a9to5.NEWS;
+package com.omievee.a9to5.News;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.omievee.a9to5.Calendar.CalendarCallbacks;
 import com.omievee.a9to5.R;
 import com.omievee.a9to5.RecyclerView.AbstractBaseHolder;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
@@ -23,11 +20,11 @@ import static android.view.View.GONE;
  * Created by omievee on 5/5/17.
  */
 
-public class NEWS_VIEWHOLDER extends AbstractBaseHolder {
+public class News_ViewHolder extends AbstractBaseHolder {
     List<TextView> mHEADLINE, mDESCRIP;
 
 
-    public NEWS_VIEWHOLDER(View itemView) {
+    public News_ViewHolder(View itemView) {
         super(itemView);
 
         mHEADLINE = new ArrayList<>();
@@ -58,7 +55,7 @@ public class NEWS_VIEWHOLDER extends AbstractBaseHolder {
     @Override
     public void bindDataToViews(AbstractBaseInformationObject data) {
 
-        NEWS_OBJECT local = (NEWS_OBJECT) data;
+        News_Object local = (News_Object) data;
         for (int i = 0; i < mHEADLINE.size() ; i++) {
             mHEADLINE.get(i).setText(local.getArticles().get(i)[0]);
             mDESCRIP.get(i).setText(local.getArticles().get(i)[1]);

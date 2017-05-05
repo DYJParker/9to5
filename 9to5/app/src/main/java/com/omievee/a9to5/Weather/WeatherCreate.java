@@ -50,7 +50,6 @@ public class WeatherCreate {
                         Log.d(TAG, "onResponse: " + weather);
                         //Toast.makeText(MainActivity.context, "City Unknown, Please try again", Toast.LENGTH_SHORT).show();
                     } else {
-                        //TODO create object and add it to recyclerview
                         if (alert == false) {
 
                             WeatherInfoObject mTemp = new WeatherInfoObject(
@@ -58,6 +57,9 @@ public class WeatherCreate {
                                     weather.getMain().getTemp(),
                                     weather.getMain().getTempMax(),
                                     weather.getMain().getTempMin());
+
+                          //WeatherInfoObject mTemp = new WeatherInfoObject(false);
+
 
                             InterfaceSingleton.getInstance().updateList(mTemp);
 

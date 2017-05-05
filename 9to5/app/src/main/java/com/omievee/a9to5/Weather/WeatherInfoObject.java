@@ -9,6 +9,7 @@ import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 public class WeatherInfoObject extends AbstractBaseInformationObject {
     private String mCity, mDescription;
     private Double mTemperature, mHi, mLow;
+    private boolean mConnected = true;
 
     public WeatherInfoObject(String city, String description, Double tempurature, Double hi, Double low) {
         mCity = city;
@@ -16,6 +17,15 @@ public class WeatherInfoObject extends AbstractBaseInformationObject {
         mTemperature = tempurature;
         mHi = hi;
         mLow = low;
+    }
+
+    public WeatherInfoObject(boolean ifConnected){
+        mConnected = ifConnected;
+        //everything else is null.
+    }
+
+    public boolean getConnection(){
+        return mConnected;
     }
 
     public String getCity() {

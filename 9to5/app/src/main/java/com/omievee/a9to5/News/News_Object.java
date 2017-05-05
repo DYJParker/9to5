@@ -1,4 +1,4 @@
-package com.omievee.a9to5.NEWS;
+package com.omievee.a9to5.News;
 
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by omievee on 5/5/17.
  */
 
-public class NEWS_OBJECT extends AbstractBaseInformationObject {
+public class News_Object extends AbstractBaseInformationObject {
 
     List<String[]> articles = new ArrayList();
 
