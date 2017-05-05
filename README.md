@@ -1,18 +1,18 @@
 Project-3: TouchLab CardView App
 =====
-## By Dave, Justin, and Omar
+### By Dave, Justin, and Omar
 
 For our third Unit Project, we were assigned to create a scrolling feed of different kinds of informative CardViews, a la Google Now. Here's what we came up with!
 
 MTA Subway Status
 -----
-![Subway Screenshot](Screenshots/Screenshot-MTA.png)
+![Subway Screenshot](Screenshots/MTA_CARD.png)
 
 On startup, our app will fetch the current status of all the subway lines from the MTA servers and display it in a concise format. If there isn't enough room, for two columns of information, it will be displayed in one with less-cramped text. In addition, the card will show a distinct error state if the MTA servers could not be reached or had changed the format of their response.
 
 News
 -----
-![News Screenshot](Screenshots/Screenshot-News.png)
+![News Screenshot](Screenshots/NEWS_CARD.png)
 
 On startup, our app will fetch and display the top three news stories, currently hard-configured to come from Al-Jazeera News.
 
