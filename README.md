@@ -6,13 +6,13 @@ For our third Unit Project, we were assigned to create a scrolling feed of diffe
 
 MTA Subway Status
 -----
-![Subway Screenshot](Screenshots/Screenshot-MTA.png)
+![Subway Screenshot](Screenshots/MTA_CARD.png)
 
 On startup, our app will fetch the current status of all the subway lines from the MTA servers and display it in a concise format. If there isn't enough room, for two columns of information, it will be displayed in one with less-cramped text. In addition, the card will show a distinct error state if the MTA servers could not be reached or had changed the format of their response.
 
 News
 -----
-![News Screenshot](Screenshots/Screenshot-News.png)
+![News Screenshot](Screenshots/NEWS_CARD.png)
 
 On startup, our app will fetch and display the top three news stories, currently hard-configured to come from Al-Jazeera News.
 
@@ -33,3 +33,6 @@ Additional Features
 - Our app will check for internet connection upon startup, and if there isn't it will display a notification card instead of trying to fetch any remote data.
 - Our app will display the cards in a two-column staggered layout on wider screens, from landscape on a convention phone to portrait on a tablet.
 
+
+
+**NOTE**.. in order to run the NETWORKFAILURE test you must put the device in airplane mode in order for it to pass. It tests if the app displays the proper card if / when the network is not connected. 
