@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        //RecyclerView / LLM / Async Task
+
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float dpWidth = metrics.widthPixels / metrics.density;
 
