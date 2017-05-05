@@ -24,8 +24,6 @@ import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
 import com.omievee.a9to5.RecyclerView.NetworkFailureObject;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.WeatherCreate;
-import com.omievee.a9to5.Weather.WeatherInfoObject;
-import com.omievee.a9to5.Weather.WeatherViewHolder;
 
 import java.util.ArrayList;
 
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     //        setSupportActionBar(toolbar);
 
-        //RecyclerView / LLM / Async Task
+        //RecyclerView / LLM
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float dpWidth = metrics.widthPixels / metrics.density;
 
