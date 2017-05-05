@@ -3,7 +3,10 @@ package com.omievee.a9to5;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -14,12 +17,15 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.omievee.a9to5.Calendar.CalendarCallbacks;
 import com.omievee.a9to5.JobScheduler.JobService;
 import com.omievee.a9to5.MTA_API.MTA_GetStatus;
 import com.omievee.a9to5.RecyclerView.AbstractBaseInformationObject;
 import com.omievee.a9to5.RecyclerView.InterfaceSingleton;
+import com.omievee.a9to5.RecyclerView.NetworkFailureImageHolder;
+import com.omievee.a9to5.RecyclerView.NetworkFailureObject;
 import com.omievee.a9to5.RecyclerView.RECYAdapter;
 import com.omievee.a9to5.Weather.WeatherCreate;
 
@@ -28,7 +34,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivity";
     private static final int CALENDAR_LOADER = 0;
-
     public static String sCityQuery = "New York";
 
     //JobScheduler
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -62,8 +68,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapt = new RECYAdapter(new ArrayList<AbstractBaseInformationObject>());
         mRV.setAdapter(mAdapt);
 
-        WeatherCreate.getCityWeather(sCityQuery, this, false);
-
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            //Toast.makeText(MainActivity.this, "No network connection", Toast.LENGTH_SHORT).show();
+            NetworkFailureObject temp = new NetworkFailureObject();
+            InterfaceSingleton.getInstance().updateList(temp);
+            //create new card
+        }else {
+            //things that need internet access here
+            WeatherCreate.getCityWeather(sCityQuery, this, false);
+            MTA_GetStatus.getMTAStatus(this);
+        }
         getSupportLoaderManager().initLoader(CALENDAR_LOADER, null, this);
 
         //JobInfo job = new JobInfo.Builder(JOB_ID,
@@ -74,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //        .build();
         //((JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE)).schedule(job);
 
-        MTA_GetStatus.getMTAStatus(this);
     }
 
     @Override

@@ -27,8 +27,11 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
     private static final int CALENDAR_TYPE = 0;
     private static final int WEATHER_TYPE = 1;
     private static final int MTA_TYPE = 2;
+    private static final int NETWORK_FAILURE = 3;
+
 
     private List<AbstractBaseInformationObject> mCardList;
+
 
     public RECYAdapter(List<AbstractBaseInformationObject> list) {
         mCardList = list;
@@ -37,7 +40,10 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
 
     @Override
     public int getItemViewType(int position) {
-        if (mCardList.get(position) instanceof MTA_object) return MTA_TYPE;
+
+        if(mCardList.get(position) instanceof NetworkFailureObject) return NETWORK_FAILURE;
+
+        else if (mCardList.get(position) instanceof MTA_object) return MTA_TYPE;
 
         else if (mCardList.get(position) instanceof WeatherInfoObject) return WEATHER_TYPE;
 
@@ -52,6 +58,8 @@ public class RECYAdapter extends RecyclerView.Adapter<AbstractBaseHolder> implem
         CardView item = (CardView) inflater.inflate(R.layout.base_item_cardview, parent, false);
 
         switch (viewType) {
+            case NETWORK_FAILURE:
+                return new NetworkFailureImageHolder(item);
             case CALENDAR_TYPE:
                 return new CalendarViewHolder(item);
             case MTA_TYPE:

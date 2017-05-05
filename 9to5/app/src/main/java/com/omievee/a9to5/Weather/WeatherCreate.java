@@ -59,6 +59,9 @@ public class WeatherCreate {
                                     weather.getMain().getTempMax(),
                                     weather.getMain().getTempMin());
 
+                          //WeatherInfoObject mTemp = new WeatherInfoObject(false);
+
+
                             InterfaceSingleton.getInstance().updateList(mTemp);
 
                             Log.d(TAG, "city: " + weather.getName());
