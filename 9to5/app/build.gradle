@@ -21,7 +21,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile 'org.hamcrest:java-hamcrest:2.0.0.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'org.hamcrest'
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -46,7 +48,17 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.volley:volley:1.0.0'
-
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude group: 'org.hamcrest'
+    }
+    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2'){
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'org.hamcrest'
+    }
 
 }
 
